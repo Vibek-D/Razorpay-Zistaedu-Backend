@@ -16,7 +16,7 @@ app.set('view engine', 'ejs');
 
 app.use(cors());
 app.use(express.json());
-app.use(express.urlencoded({extended: false}))
+app.use(express.urlencoded({extended: false}));
 
 app.post('/order', (req, res) => {
     let options = {
@@ -27,16 +27,16 @@ app.post('/order', (req, res) => {
 
     razorpay.orders.create(options, (err, order) => {
         res.json(order);
-    })
-})
+    });
+});
 
 app.post('/order_complete', (req, res) => {
     razorpay.payments.fetch(req.body.razorpay_payment_id).then((resp) => console.log(`resp`, resp));
     if (true) {
         res.render('success');
     }
-})
+});
 
 app.listen(port, () => {
   console.log(`App listening at http://localhost:${port}`)
-})
+});
