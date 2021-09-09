@@ -30,6 +30,10 @@ app.post('/order', (req, res) => {
     });
 });
 
+app.get('/', (req, res) => {
+    res.send('Server pinged');
+});
+
 app.post('/order_complete', (req, res) => {
     razorpay.payments.fetch(req.body.razorpay_payment_id).then((resp) => console.log(`resp`, resp));
     if (true) {
