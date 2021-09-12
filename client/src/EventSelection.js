@@ -104,7 +104,6 @@ export default function EventSelection() {
     let result = rows.find(obj => {
       return obj.name === name;
     })
-    console.log(result);
     result.disabledToggle = !result.disabledToggle;
     if (result.disabledToggle) {
       if (result.webinarCheckbox) {
@@ -137,7 +136,6 @@ export default function EventSelection() {
     let check = mainEventData.find(obj => {
       return obj.id === newSelectedLength;
     })
-    console.log(check);
     setMainEventPrice(check?.price);
   };
 

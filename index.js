@@ -19,7 +19,6 @@ app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 
 app.post('/order', async (req, res) => {
-    console.log(req.body);
     let options = {
         "amount": req.body.amount,
         "currency": req.body.currency,
@@ -27,7 +26,6 @@ app.post('/order', async (req, res) => {
     }
 
     await razorpay.orders.create(options, (err, order) => {
-        console.log(order);
         res.json(order);
     });
 });
@@ -37,12 +35,16 @@ app.get('/', (req, res) => {
 });
 
 app.post('/order_complete', (req, res) => {
-    razorpay.payments.fetch(req.body.razorpay_payment_id).then((resp) => console.log(`resp`, resp));
-    if (true) {
-        res.render('success');
-    }
+    razorpay.payments.fetch(req.body.razorpay_payment_id).then((resp) => {
+        if (resp.captured || resp.captured === 'true') {
+            res.render('success');
+        } else {
+            res.render('error');
+        }
+    });
+    
 });
 
 app.listen(port, () => {
-  console.log(`App listening at http://localhost:${port}`)
+  console.log(`App listening at http://localhost:${port}`);
 });
