@@ -18,14 +18,16 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 
-app.post('/order', (req, res) => {
+app.post('/order', async (req, res) => {
+    console.log(req.body);
     let options = {
-        "amount": (req.body.amount).toString(),
+        "amount": req.body.amount,
         "currency": req.body.currency,
         "receipt": req.body.id,
     }
 
-    razorpay.orders.create(options, (err, order) => {
+    await razorpay.orders.create(options, (err, order) => {
+        console.log(order);
         res.json(order);
     });
 });

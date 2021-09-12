@@ -104,6 +104,7 @@ export default function EventSelection() {
     let result = rows.find(obj => {
       return obj.name === name;
     })
+    console.log(result);
     result.disabledToggle = !result.disabledToggle;
     if (result.disabledToggle) {
       if (result.webinarCheckbox) {
@@ -136,6 +137,7 @@ export default function EventSelection() {
     let check = mainEventData.find(obj => {
       return obj.id === newSelectedLength;
     })
+    console.log(check);
     setMainEventPrice(check?.price);
   };
 
@@ -144,12 +146,11 @@ export default function EventSelection() {
   }
 
   const razorpayPayment = (event) => {
-    console.log('Hi')
     let id = shortid.generate();
     let orders = {
-      amount: (mainEventPrice + webinarPrice + breakoutPrice)*100,
+      amount: (mainEventPrice + webinarPrice + breakoutPrice) * 100,
       currency: "USD",
-      receipt: id,
+      id: id,
     }
 
     axios.post('/order', orders)
@@ -165,17 +166,17 @@ export default function EventSelection() {
           "order_id": response.data.id,
           "callback_url": "/order_complete",
           "notes": {
-              "address": "Razorpay Corporate Office"
+            "address": "Razorpay Corporate Office"
           },
           "theme": {
-              "color": "#424242"
+            "color": "#424242"
           }
         };
 
         let rzp = new window.Razorpay(options);
         rzp.open();
       }
-    );
+      );
   }
 
   const [open, setOpen] = React.useState(false);
@@ -199,58 +200,56 @@ export default function EventSelection() {
 
   return (
     <div>
-      <Paper elevation={3}>
-        <TableContainer>
-          <Table size={'small'}>
-            <EnhancedTableHead
-              numSelected={selected.length}
-              rowCount={rows.length}
-            />
-            <TableBody>
-              {rows.map((row, index) => {
-                const isItemSelected = isSelected(row.name);
-                const labelId = `enhanced-table-checkbox-${index}`;
+      <TableContainer component={Paper} elevation={1} sx={{backgroundColor: 'whitesmoke'}}>
+        <Table size={'small'}>
+          <EnhancedTableHead
+            numSelected={selected.length}
+            rowCount={rows.length}
+          />
+          <TableBody>
+            {rows.map((row, index) => {
+              const isItemSelected = isSelected(row.name);
+              const labelId = `enhanced-table-checkbox-${index}`;
 
-                return (
-                  <TableRow
-                    hover
-                    role="checkbox"
-                    aria-checked={isItemSelected}
-                    tabIndex={-1}
-                    key={row.name}
-                    selected={isItemSelected}
-                  >
-                    <TableCell component="th" id={labelId} scope="row" sx={{ borderRight: 'solid 1px #DCDCDC' }}>{row.name}</TableCell>
-                    <TableCell align="center" sx={{ borderRight: 'solid 1px #DCDCDC' }}>
-                      <Checkbox
-                        checked={isItemSelected}
-                        onChange={(event) => handleClick(event, row.name)}
-                        inputProps={{ 'aria-labelledby': labelId }}
-                      />
-                    </TableCell>
-                    <TableCell align="center" sx={{ borderRight: 'solid 1px #DCDCDC' }}>
-                      <Checkbox
-                        checked={row.breakoutCheckbox}
-                        disabled={row.disabledToggle}
-                        onChange={(event) => handleBreakoutPrice(event, row.name)}
-                        inputProps={{ 'aria-labelledby': labelId }}
-                      />
-                    </TableCell>
-                    <TableCell align="center">
-                      <Checkbox
-                        checked={row.webinarCheckbox}
-                        disabled={row.disabledToggle}
-                        onChange={(event) => handleWebinarPrice(event, row.name)}
-                        inputProps={{ 'aria-labelledby': labelId }}
-                      />
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </Paper>
+              return (
+                <TableRow
+                  hover
+                  role="checkbox"
+                  aria-checked={isItemSelected}
+                  tabIndex={-1}
+                  key={row.name}
+                  selected={isItemSelected}
+                >
+                  <TableCell component="th" id={labelId} scope="row" sx={{ borderRight: 'solid 1px #DCDCDC' }}>{row.name}</TableCell>
+                  <TableCell align="center" sx={{ borderRight: 'solid 1px #DCDCDC' }}>
+                    <Checkbox
+                      checked={isItemSelected}
+                      onChange={(event) => handleClick(event, row.name)}
+                      inputProps={{ 'aria-labelledby': labelId }}
+                    />
+                  </TableCell>
+                  <TableCell align="center" sx={{ borderRight: 'solid 1px #DCDCDC' }}>
+                    <Checkbox
+                      checked={row.breakoutCheckbox}
+                      disabled={row.disabledToggle}
+                      onChange={(event) => handleBreakoutPrice(event, row.name)}
+                      inputProps={{ 'aria-labelledby': labelId }}
+                    />
+                  </TableCell>
+                  <TableCell align="center">
+                    <Checkbox
+                      checked={row.webinarCheckbox}
+                      disabled={row.disabledToggle}
+                      onChange={(event) => handleWebinarPrice(event, row.name)}
+                      inputProps={{ 'aria-labelledby': labelId }}
+                    />
+                  </TableCell>
+                </TableRow>
+              );
+            })}
+          </TableBody>
+        </Table>
+      </TableContainer>
       <Box mt={6} display="flex" justifyContent="center">
         <Button sx={{ width: "250px", height: "45px" }} variant="contained" color="primary" onClick={(event) => handleClickOpen(event)}>
           Submit Order
@@ -263,18 +262,18 @@ export default function EventSelection() {
         <DialogContent>
           <DialogContentText id="razorpayDialogDescription">
             <Typography variant='h5' mb={3} mt={3}>ORDER SUMMARY:</Typography>
-            <Paper elevation={3}>
+            <Paper elevation={1}>
               <Box display='flex' justifyContent='center' flexDirection='column' p={2}>
-                <Typography variant="h6">Main Events Total Price: ${mainEventPrice}</Typography>
-                <Typography variant="h6">Breakout Session Total Price: ${breakoutPrice}</Typography>
-                <Typography variant="h6">Post-Event Webinar Total Price: ${webinarPrice}</Typography>
+                <Typography variant="h6">Main Event Total Price: $ {mainEventPrice}</Typography>
+                <Typography variant="h6">Breakout Session Total Price: $ {breakoutPrice}</Typography>
+                <Typography variant="h6">Post Event Webinar Total Price: $ {webinarPrice}</Typography>
                 <Divider sx={{ mt: 1, mb: 2 }} />
-                <Typography variant="h6">All Items Total Price: ${mainEventPrice + webinarPrice + breakoutPrice}</Typography>
+                <Typography variant="h6">All Items Total Price: $ {mainEventPrice + webinarPrice + breakoutPrice}</Typography>
               </Box>
             </Paper>
           </DialogContentText>
         </DialogContent>
-        <DialogActions sx={{pr:'24px'}}>
+        <DialogActions sx={{ pr: '24px' }}>
           <Button onClick={handleClose} variant="contained" color="primary">
             Cancel
           </Button>

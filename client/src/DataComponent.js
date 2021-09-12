@@ -51,12 +51,22 @@ export const rows = [
         name: '8 Events',
         price: 11000
     },
+    {
+      id: 9,
+      name: '9 Events',
+      price: 12400
+    },
+    {
+      id: 10,
+      name: '10 Events',
+      price: 13800
+  },
 ];
 
 export default function BasicTable() {
 
   return (
-    <TableContainer component={Paper} elevation={3}>
+    <TableContainer component={Paper} elevation={1} sx={{backgroundColor: 'whitesmoke'}}>
       <Table size={'small'}>
         <TableHead>
           <TableRow>
@@ -74,10 +84,10 @@ export default function BasicTable() {
         <TableBody>
           {rows.map((row) => (
             <TableRow key={row.name}>
-              <TableCell component="th" scope="row" sx={{ borderRight: 'solid 1px #DCDCDC' }}> {row.name}</TableCell>
-              <TableCell component="th" scope="row" sx={{ borderRight: 'solid 1px #DCDCDC' }}> ${row.price}</TableCell>
-              {row.breakout && (<TableCell rowSpan={8} align="center" sx={{ borderRight: 'solid 1px #DCDCDC' }}>${row.breakout} per event</TableCell>)}
-              {row.postEvent && (<TableCell rowSpan={8} align="center">${row.postEvent} per event</TableCell>)}
+              <TableCell component="th" scope="row" sx={{ borderRight: 'solid 1px #DCDCDC' }}>{row.name}</TableCell>
+              <TableCell component="th" scope="row" sx={{ borderRight: 'solid 1px #DCDCDC' }}>$ {row.price}</TableCell>
+              {row.breakout && (<TableCell rowSpan={10} align="center" sx={{ borderRight: 'solid 1px #DCDCDC' }}>$ {row.breakout} per event</TableCell>)}
+              {row.postEvent && (<TableCell rowSpan={10} align="center">$ {row.postEvent} per event</TableCell>)}
             </TableRow>
           ))}
         </TableBody>

@@ -1,13 +1,12 @@
 /* eslint-disable no-unused-vars */
 import "./App.css";
 import React from "react";
-import axios from "axios";
-import "react-awesome-button/dist/styles.css";
 import Box from '@material-ui/core/Box';
 import DataComponent from "./DataComponent";
-import { BrowserRouter as Router } from 'react-router-dom';
-import { Typography } from "@material-ui/core";
+import "react-awesome-button/dist/styles.css";
 import EventSelection from "./EventSelection";
+import { Typography } from "@material-ui/core";
+import { BrowserRouter as Router } from 'react-router-dom';
 
 export function App() {
   React.useEffect(() => {
@@ -21,11 +20,11 @@ export function App() {
     <>
       <Router>
         <Box display='flex' justifyContent='center' flexDirection='column' m={4}>
-          <Typography variant='h5' mb={3} sx={{ fontFamily: 'Play sansSerif' }}>PARTICIPATION FEE DETAILS:</Typography>
+          <Typography variant='h5' mb={3} sx={{ fontFamily: 'Montserrat' }}>PARTICIPATION FEE DETAILS:</Typography>
           <DataComponent />
         </Box>
         <Box display='flex' justifyContent='center' flexDirection='column' m={4}>
-          <Typography variant='h5' mb={3} sx={{ fontFamily: 'Play sansSerif' }}>EVENTS SELECTION DETAILS:</Typography>
+          <Typography variant='h5' mb={3} sx={{ fontFamily: 'Montserrat' }}>EVENTS SELECTION DETAILS:</Typography>
           <EventSelection />
         </Box>
       </Router>
