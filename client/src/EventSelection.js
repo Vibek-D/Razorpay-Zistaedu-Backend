@@ -7,7 +7,6 @@ import Table from '@material-ui/core/Table';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
-import Toolbar from '@material-ui/core/Toolbar';
 import Divider from '@material-ui/core/Divider';
 import TableRow from '@material-ui/core/TableRow';
 import Checkbox from '@material-ui/core/Checkbox';
@@ -156,15 +155,16 @@ export default function EventSelection() {
         console.log(`response`, response);
         let options = {
           "key": "rzp_test_lJJR8GoVGaIpBa",
+          "order_id": response.data.id,
           "amount": response.data.amount,
           "currency": response.data.currency,
-          "name": "ZistaEdu",
-          "description": "Test Transaction",
-          "image": "https://image.shutterstock.com/image-vector/ninja-assassin-mascot-logo-vector-260nw-1760442626.jpg",
-          "order_id": response.data.id,
+          "offer_id": response.data.offer_id,
+          "name": "Zista Education",
+          "description": "Registration Transaction",
+          "image": "https://media-exp1.licdn.com/dms/image/C510BAQEzvaYnuT6NuQ/company-logo_200_200/0/1529486515702?e=2159024400&v=beta&t=E7jays0m1qxFLUVfLXHOokyAMuHaKEqQ07uj66BLIow",
           "callback_url": "/order_complete",
           "notes": {
-            "address": "Razorpay Corporate Office"
+            "address": "ZistaEdu Corporate Office Mumbai"
           },
           "theme": {
             "color": "#424242"
@@ -174,7 +174,7 @@ export default function EventSelection() {
         let rzp = new window.Razorpay(options);
         rzp.open();
       }
-      );
+    );
   }
 
   const [open, setOpen] = React.useState(false);
@@ -198,7 +198,7 @@ export default function EventSelection() {
 
   return (
     <div>
-      <TableContainer component={Paper} elevation={1} sx={{backgroundColor: 'whitesmoke'}}>
+      <TableContainer component={Paper} elevation={1} sx={{ backgroundColor: 'whitesmoke' }}>
         <Table size={'small'}>
           <EnhancedTableHead
             numSelected={selected.length}

@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 require('dotenv').config();
 const cors = require('cors');
+const axios = require('axios');
 var shortid = require('shortid');
 const Razorpay = require('razorpay');
 
@@ -16,13 +17,14 @@ app.set('view engine', 'ejs');
 
 app.use(cors());
 app.use(express.json());
-app.use(express.urlencoded({extended: false}));
+app.use(express.urlencoded({ extended: false }));
 
 app.post('/order', async (req, res) => {
     let options = {
         "amount": req.body.amount,
         "currency": req.body.currency,
         "receipt": req.body.id,
+        "offer_id": "offer_HwqxGeIFvrChS0"
     }
 
     await razorpay.orders.create(options, (err, order) => {
@@ -42,9 +44,9 @@ app.post('/order_complete', (req, res) => {
             res.render('error');
         }
     });
-    
+
 });
 
 app.listen(port, () => {
-  console.log(`App listening at http://localhost:${port}`);
+    console.log(`App listening at http://localhost:${port}`);
 });
