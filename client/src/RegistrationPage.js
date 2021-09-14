@@ -5,7 +5,7 @@ import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import React, { useState, useEffect } from 'react';
 import Typography from '@material-ui/core/Typography'
-
+import logo from './logo.png';
 
 function RegistrationPage({ history }) {
     const intialValues = { email: "", fName: "", lName: "", instName: "", instAddress: "", phNumber: "", officePhone: "" };
@@ -80,16 +80,19 @@ function RegistrationPage({ history }) {
     }, [formErrors, isSubmitting]);
 
     return (
-        <Box display="flex" justifyContent="center" alignItems="center" flex="1" flexDirection="column">
-            <Paper elevation={1} sx={{ width: '100vw', height:'150px', mb: '30px', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', backgroundColor: 'whitesmoke' }}>
-                <Typography variant="h3" color="initial">
+        <Box sx={{ fontFamily: 'Exo', fontWeight: '700' }} display="flex" justifyContent="center" alignItems="center" flex="1" flexDirection="column">
+            <Paper elevation={1} sx={{ width: '100vw', height: '150px', mb: '30px', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', backgroundColor: 'whitesmoke' }}>
+                <Box display='flex' width="330px" justifyContent="center" backgroundColor="black" borderRadius="20px">
+                    <img style={{marginLeft: '15px'}} src={logo} alt="Logo" />
+                </Box>
+                <Typography variant="h3" color="initial" sx={{ fontFamily: 'Exo', fontWeight: '800', mt: '10px' }}>
                     REGISTER FOR ZISTA EVENTS
-                </Typography> 
+                </Typography>
             </Paper>
             <Paper elevation={1} sx={{ width: '700px', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', backgroundColor: 'whitesmoke' }}>
-                <Typography mb='40px' mt="40px" variant="h3" color="grey">Registration Form</Typography>
+                <Typography mb='40px' mt="40px" variant="h3" color="grey" sx={{ fontFamily: 'Exo', fontWeight: '800' }}>Registration Form</Typography>
                 {Object.keys(formErrors).length === 0 && isSubmitting && (
-                    <span className="success-msg">Form submitted successfully</span>
+                    <span style={{ fontFamily: 'Exo' }} className="success-msg">Form submitted successfully</span>
                 )}
                 <form onSubmit={handleSubmit} noValidate style={{ width: '500px', position: 'relative' }}>
                     <div className="form-row">
@@ -200,7 +203,7 @@ function RegistrationPage({ history }) {
                     <Button sx={{
                         mb: '70px',
                         mt: '30px',
-                        bgcolor: '#1d3557', 
+                        bgcolor: '#1d3557',
                         '&:hover': {
                             backgroundColor: '#465d7c',
                             boxShadow: 'none',
