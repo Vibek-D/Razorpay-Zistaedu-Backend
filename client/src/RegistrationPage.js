@@ -90,7 +90,7 @@ function RegistrationPage({ history }) {
                 </Typography>
             </Paper>
             <Paper elevation={1} sx={{ width: '700px', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', backgroundColor: 'whitesmoke' }}>
-                <Typography mb='40px' mt="40px" variant="h3" color="grey" sx={{ fontFamily: 'Exo', fontWeight: '800' }}>Registration Form</Typography>
+                <Typography mb='30px' mt="40px" variant="h3" color="grey" sx={{ fontFamily: 'Exo', fontWeight: '800' }}>Registration Form</Typography>
                 {Object.keys(formErrors).length === 0 && isSubmitting && (
                     <span style={{ fontFamily: 'Exo' }} className="success-msg">Form submitted successfully</span>
                 )}

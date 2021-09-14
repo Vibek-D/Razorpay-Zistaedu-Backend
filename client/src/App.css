@@ -51,6 +51,11 @@ input {
   padding: 0.5rem 1rem;
   padding-left: 1rem;
   font-size: 1rem;
+  transition: 0.2s ease-in-out;
+}
+
+input:hover {
+  border: 3px solid #465d7c;
 }
 
 .form-row {
