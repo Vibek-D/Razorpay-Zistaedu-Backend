@@ -45,6 +45,12 @@ app.post('/order_complete', (req, res) => {
     });
 });
 
+app.post('/submit', (req, res) => {
+    console.log(req.body);
+    res.json(req.body.data);
+});
+
+
 app.listen(port, () => {
     console.log(`App listening at http://localhost:${port}`);
 });
