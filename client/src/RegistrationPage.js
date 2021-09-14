@@ -2,7 +2,10 @@
 import "./App.css";
 import Box from '@material-ui/core/Box';
 import Paper from '@material-ui/core/Paper';
+import Button from '@material-ui/core/Button';
 import React, { useState, useEffect } from 'react';
+import Typography from '@material-ui/core/Typography'
+
 
 function RegistrationPage({ history }) {
     const intialValues = { email: "", fName: "", lName: "", instName: "", instAddress: "", phNumber: "", officePhone: "" };
@@ -23,7 +26,9 @@ function RegistrationPage({ history }) {
         e.preventDefault();
         setFormErrors(validate(formValues));
         setIsSubmitting(true);
-        history.push(`/event`);
+        setTimeout(function () {
+            history.push(`/event`);;
+        }, 2000);
     };
 
     const validate = (values) => {
@@ -75,12 +80,18 @@ function RegistrationPage({ history }) {
     }, [formErrors, isSubmitting]);
 
     return (
-        <Box display="flex" justifyContent="center" alignItems="center" flex="1">
-            <Paper elevation={1} sx={{ width: '700px', height: '700px', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
+        <Box display="flex" justifyContent="center" alignItems="center" flex="1" flexDirection="column">
+            <Paper elevation={1} sx={{ width: '100vw', height:'150px', mb: '30px', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', backgroundColor: 'whitesmoke' }}>
+                <Typography variant="h3" color="initial">
+                    REGISTER FOR ZISTA EVENTS
+                </Typography> 
+            </Paper>
+            <Paper elevation={1} sx={{ width: '700px', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', backgroundColor: 'whitesmoke' }}>
+                <Typography mb='40px' mt="40px" variant="h3" color="grey">Registration Form</Typography>
                 {Object.keys(formErrors).length === 0 && isSubmitting && (
                     <span className="success-msg">Form submitted successfully</span>
                 )}
-                <form onSubmit={handleSubmit} noValidate style={{ width: '500px' }}>
+                <form onSubmit={handleSubmit} noValidate style={{ width: '500px', position: 'relative' }}>
                     <div className="form-row">
                         <label htmlFor="instName">Institution Name</label>
                         <input
@@ -186,7 +197,15 @@ function RegistrationPage({ history }) {
                         )}
                     </div>
 
-                    <button type="submit">Submit</button>
+                    <Button sx={{
+                        mb: '70px',
+                        mt: '30px',
+                        bgcolor: '#1d3557', 
+                        '&:hover': {
+                            backgroundColor: '#465d7c',
+                            boxShadow: 'none',
+                        },
+                    }} type="submit" variant="contained">Submit</Button>
                 </form>
             </Paper>
         </Box>
