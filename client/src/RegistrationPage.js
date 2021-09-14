@@ -1,11 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import "./App.css";
+import axios from "axios";
+import logo from './logo.png';
 import Box from '@material-ui/core/Box';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import React, { useState, useEffect } from 'react';
 import Typography from '@material-ui/core/Typography'
-import logo from './logo.png';
 
 function RegistrationPage({ history }) {
     const intialValues = { email: "", fName: "", lName: "", instName: "", instAddress: "", phNumber: "", officePhone: "" };
@@ -15,6 +16,10 @@ function RegistrationPage({ history }) {
 
     const submit = () => {
         console.log(formValues);
+        axios.post('/submit', formValues)
+        .then(response => {
+            console.log(response);
+        });
     };
 
     const handleChange = (e) => {
@@ -26,9 +31,9 @@ function RegistrationPage({ history }) {
         e.preventDefault();
         setFormErrors(validate(formValues));
         setIsSubmitting(true);
-        setTimeout(function () {
-            history.push(`/event`);;
-        }, 2000);
+        // setTimeout(function () {
+        //     history.push(`/event`);;
+        // }, 2000);
     };
 
     const validate = (values) => {
@@ -80,9 +85,9 @@ function RegistrationPage({ history }) {
     }, [formErrors, isSubmitting]);
 
     return (
-        <Box sx={{ fontFamily: 'Exo', fontWeight: '700' }} display="flex" justifyContent="center" alignItems="center" flex="1" flexDirection="column">
+        <Box sx={{ fontFamily: 'Exo', fontWeight: '700' }} backgroundColor="#fafad2" height="100%" display="flex" justifyContent="center" alignItems="center" flex="1" flexDirection="column">
             <Box>
-                <Paper elevation={0} sx={{ width: '100vw', height: '100px', mb: '30px', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', backgroundColor: 'whitesmoke' }}>
+                <Paper elevation={0} sx={{ width: '100vw', height: '100px', mb: '30px', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', backgroundColor: '#fafad2' }}>
                     <Box display="flex">
                         <Box display='flex' width="330px" justifyContent="center" backgroundColor="black" borderRadius="20px">
                             <img style={{ marginLeft: '15px' }} src={logo} alt="Logo" />
@@ -94,7 +99,7 @@ function RegistrationPage({ history }) {
                 </Paper>
             </Box>
             <Box display="flex" justifyContent="center" width="100%" height="100%">
-                <Paper elevation={4} sx={{ width: '700px', height: '800px', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', backgroundColor: 'whitesmoke' }}>
+                <Paper elevation={4} sx={{ width: '700px', height: '800px', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', backgroundColor: '#FFECB3' }}>
                     <Typography mb='30px' mt="40px" variant="h3" color="grey" sx={{ fontFamily: 'Exo', fontWeight: '800' }}>Registration Form</Typography>
                     {Object.keys(formErrors).length === 0 && isSubmitting && (
                         <span style={{ fontFamily: 'Exo' }} className="success-msg">Form submitted successfully</span>

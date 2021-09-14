@@ -8,11 +8,11 @@ function EventDetailsPage() {
     return (
         <Box flex="1">
             <Box display='flex' justifyContent='center' flexDirection='column' m={4}>
-                <Typography variant='h5' mb={3} sx={{ fontFamily: 'Montserrat' }}>PARTICIPATION FEE DETAILS:</Typography>
+                <Typography variant='h5' mb={3} sx={{ fontFamily: 'Exo', fontWeight: '800' }}>PARTICIPATION FEE DETAILS:</Typography>
                 <DataComponent />
             </Box>
             <Box display='flex' justifyContent='center' flexDirection='column' m={4}>
-                <Typography variant='h5' mb={3} sx={{ fontFamily: 'Montserrat' }}>EVENTS SELECTION DETAILS:</Typography>
+                <Typography variant='h5' mb={3} sx={{ fontFamily: 'Exo', fontWeight: '800' }}>EVENTS SELECTION DETAILS:</Typography>
                 <EventSelection />
             </Box>
         </Box>
