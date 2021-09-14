@@ -145,29 +145,29 @@ export default function EventSelection() {
   const razorpayPayment = (event) => {
     let id = shortid.generate();
     let orders = {
-      amount: (mainEventPrice + webinarPrice + breakoutPrice) * 100,
+      amount: (mainEventPrice + webinarPrice + breakoutPrice),
       currency: "USD",
-      id: id,
+      receipt: id,
     }
 
     axios.post('/order', orders)
       .then(response => {
         console.log(`response`, response);
         let options = {
-          "key": "rzp_test_lJJR8GoVGaIpBa",
+          "key": "rzp_test_GYtMuGsAOvJ5sO",
           "order_id": response.data.id,
           "amount": response.data.amount,
           "currency": response.data.currency,
           "offer_id": response.data.offer_id,
-          "name": "Zista Education",
-          "description": "Registration Transaction",
+          "name": "Amit Ahuja",
+          "description": "Zista Education ",
           "image": "https://media-exp1.licdn.com/dms/image/C510BAQEzvaYnuT6NuQ/company-logo_200_200/0/1529486515702?e=2159024400&v=beta&t=E7jays0m1qxFLUVfLXHOokyAMuHaKEqQ07uj66BLIow",
           "callback_url": "/order_complete",
           "notes": {
             "address": "ZistaEdu Corporate Office Mumbai"
           },
           "theme": {
-            "color": "#424242"
+            "color": "#FF8500"
           }
         };
 

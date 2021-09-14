@@ -1,12 +1,9 @@
 /* eslint-disable no-unused-vars */
 import "./App.css";
 import React from "react";
-import Box from '@material-ui/core/Box';
-import DataComponent from "./DataComponent";
-import "react-awesome-button/dist/styles.css";
-import EventSelection from "./EventSelection";
-import { Typography } from "@material-ui/core";
-import { BrowserRouter as Router } from 'react-router-dom';
+import EventDetailsPage from "./EventDetailsPage";
+import RegistrationPage from "./RegistrationPage";
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 export function App() {
   React.useEffect(() => {
@@ -19,14 +16,10 @@ export function App() {
   return (
     <>
       <Router>
-        <Box display='flex' justifyContent='center' flexDirection='column' m={4}>
-          <Typography variant='h5' mb={3} sx={{ fontFamily: 'Montserrat' }}>PARTICIPATION FEE DETAILS:</Typography>
-          <DataComponent />
-        </Box>
-        <Box display='flex' justifyContent='center' flexDirection='column' m={4}>
-          <Typography variant='h5' mb={3} sx={{ fontFamily: 'Montserrat' }}>EVENTS SELECTION DETAILS:</Typography>
-          <EventSelection />
-        </Box>
+        <Switch>
+          <Route path="/event" component={EventDetailsPage} />
+          <Route component={RegistrationPage} />
+        </Switch>
       </Router>
     </>
   );

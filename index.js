@@ -2,7 +2,6 @@ const express = require('express');
 const app = express();
 require('dotenv').config();
 const cors = require('cors');
-const axios = require('axios');
 var shortid = require('shortid');
 const Razorpay = require('razorpay');
 
@@ -19,12 +18,11 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.post('/order', async (req, res) => {
+app.post('/order', async(req, res) => {
     let options = {
-        "amount": req.body.amount,
-        "currency": req.body.currency,
-        "receipt": req.body.id,
-        "offer_id": "offer_HwqxGeIFvrChS0"
+        currency: req.body.currency,
+        amount: req.body.amount,
+        receipt: req.body.receipt,
     }
 
     await razorpay.orders.create(options, (err, order) => {
@@ -38,13 +36,13 @@ app.get('/', (req, res) => {
 
 app.post('/order_complete', (req, res) => {
     razorpay.payments.fetch(req.body.razorpay_payment_id).then((resp) => {
-        if (resp.captured || resp.captured === 'true') {
+        console.log(`final`, resp)
+        if (resp.status === 'authorized' || resp.status === 'captured') {
             res.render('success');
         } else {
             res.render('error');
         }
     });
-
 });
 
 app.listen(port, () => {
