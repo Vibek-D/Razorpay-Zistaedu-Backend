@@ -271,7 +271,7 @@ export default function EventSelection() {
             </Paper>
           </DialogContentText>
         </DialogContent>
-        <DialogActions sx={{ pr: '24px' }}>
+        <DialogActions sx={{ pb: '20px', pr: '24px', pl: '24px' }}>
           <Button onClick={handleClose} variant="contained" color="primary">
             Cancel
           </Button>
@@ -289,7 +289,7 @@ export default function EventSelection() {
             You haven't selected any event. Select atleast one event to checkout.
           </DialogContentText>
         </DialogContent>
-        <DialogActions>
+        <DialogActions sx={{ pb: '20px', pr: '24px', pl: '24px' }}>
           <Button onClick={handleCloseEmptyCart} color="primary" variant="contained" autoFocus>
             Close
           </Button>
