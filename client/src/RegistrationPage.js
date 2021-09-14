@@ -31,9 +31,9 @@ function RegistrationPage({ history }) {
         e.preventDefault();
         setFormErrors(validate(formValues));
         setIsSubmitting(true);
-        // setTimeout(function () {
-        //     history.push(`/event`);;
-        // }, 2000);
+        setTimeout(function () {
+            history.push(`/event`);;
+        }, 2000);
     };
 
     const validate = (values) => {
