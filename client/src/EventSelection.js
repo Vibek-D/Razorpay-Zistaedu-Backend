@@ -135,7 +135,7 @@ export default function EventSelection() {
     let check = mainEventData.find(obj => {
       return obj.id === newSelectedLength;
     })
-    setMainEventPrice(check?.price);
+    setMainEventPrice(check ? check.price : 0);
   };
 
   const isSelected = (name) => {
@@ -181,7 +181,7 @@ export default function EventSelection() {
   const [emptyCartError, setEmptyCartError] = React.useState(false);
 
   const handleClickOpen = () => {
-    if (mainEventPrice + webinarPrice + breakoutPrice === 0) {
+    if (mainEventPrice + webinarPrice + breakoutPrice === 0 || mainEventPrice + webinarPrice + breakoutPrice === '0') {
       setEmptyCartError(true);
     } else {
       setOpen(true);

@@ -1,6 +1,6 @@
 class AuthRegister {
     constructor() {
-      this.authenticated = false;
+      this.authenticated = true;
     }
   
     login(cb) {
