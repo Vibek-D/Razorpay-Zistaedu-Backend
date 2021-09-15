@@ -3,8 +3,24 @@ const app = express();
 require('dotenv').config();
 const cors = require('cors');
 const shortid = require('shortid');
-const mysql = require('mysql');
+const mongoose = require('mongoose');
 const Razorpay = require('razorpay');
+
+mongoose.connect(process.env.MONGOOSE_KEY).then(() => {
+    console.log('Mongodb connected')
+}).catch((err) => console.log(err))
+
+const zistaEduUserSchema = { 
+    email: String,
+    fName: String,
+    lName: String,
+    instName: String,
+    instAddress: String,
+    phNumber: String,
+    officePhone: String 
+}
+
+const zistaEduUserModel = mongoose.model("ZistaEduUserModel", zistaEduUserSchema);
 
 const razorpay = new Razorpay({
     "key_id": process.env.KEY_ID,
@@ -19,7 +35,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.post('/order', async(req, res) => {
+app.post('/order', async (req, res) => {
     let options = {
         currency: req.body.currency,
         amount: req.body.amount,
@@ -35,8 +51,8 @@ app.get('/', (req, res) => {
     res.send('Server pinged');
 });
 
-app.post('/order_complete', (req, res) => {
-    razorpay.payments.fetch(req.body.razorpay_payment_id).then((resp) => {
+app.post('/order_complete', async (req, res) => {
+    await razorpay.payments.fetch(req.body.razorpay_payment_id).then((resp) => {
         console.log(`final`, resp)
         if (resp.status === 'authorized' || resp.status === 'captured') {
             res.render('success');
@@ -46,9 +62,19 @@ app.post('/order_complete', (req, res) => {
     });
 });
 
-app.post('/submit', (req, res) => {
-    console.log(req.body);
-    res.json(req.body.data);
+app.post('/submit', async (req, res) => {
+    let newUser = new zistaEduUserModel({ 
+        email: req.body.email,
+        fName: req.body.fName,
+        lName: req.body.lName,
+        instName: req.body.instName,
+        instAddress: req.body.instAddress,
+        phNumber: req.body.phNumber,
+        officePhone: req.body.officePhone 
+    })
+    console.log(newUser)
+    await newUser.save();
+    res.json(newUser);
 });
 
 
