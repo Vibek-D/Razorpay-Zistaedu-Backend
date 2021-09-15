@@ -3,6 +3,7 @@ import "./App.css";
 import axios from "axios";
 import logo from './logo.png';
 import Box from '@material-ui/core/Box';
+import AuthRegister from "./AuthRegister";
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import React, { useState, useEffect } from 'react';
@@ -32,7 +33,9 @@ function RegistrationPage({ history }) {
         setFormErrors(validate(formValues));
         setIsSubmitting(true);
         setTimeout(function () {
-            history.push(`/event`);;
+            AuthRegister.login(() => {
+                history.push("/event");
+            });
         }, 2000);
     };
 

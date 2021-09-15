@@ -3,6 +3,7 @@ import "./App.css";
 import React from "react";
 import EventDetailsPage from "./EventDetailsPage";
 import RegistrationPage from "./RegistrationPage";
+import { ProtectedRoute } from "./ProtectedRoute";
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 export function App() {
@@ -17,8 +18,8 @@ export function App() {
     <>
       <Router>
         <Switch>
-          <Route exact path="/event" component={EventDetailsPage} />
           <Route exact path="/" component={RegistrationPage} />
+          <ProtectedRoute exact path="/event" component={EventDetailsPage} />
           <Route path="*" component={() => {
             return (
               <div style={{ display: 'flex', justifyContent: 'center', padding: '30px' }}>
