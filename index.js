@@ -2,7 +2,8 @@ const express = require('express');
 const app = express();
 require('dotenv').config();
 const cors = require('cors');
-var shortid = require('shortid');
+const shortid = require('shortid');
+const mysql = require('mysql');
 const Razorpay = require('razorpay');
 
 const razorpay = new Razorpay({
