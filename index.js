@@ -3,11 +3,12 @@ const app = express();
 require('dotenv').config();
 const cors = require('cors');
 const shortid = require('shortid');
+const sendMail = require('./mail');
 const mongoose = require('mongoose');
 const Razorpay = require('razorpay');
 
 mongoose.connect(process.env.MONGOOSE_KEY).then(() => {
-    console.log('Mongodb connected')
+    console.log('Mongodb Connected')
 }).catch((err) => console.log(err))
 
 const zistaEduUserSchema = { 
@@ -48,7 +49,7 @@ app.post('/order', async (req, res) => {
 });
 
 app.get('/', (req, res) => {
-    res.send('Server pinged');
+    res.send('Server Pinged ');
 });
 
 app.post('/order_complete', async (req, res) => {

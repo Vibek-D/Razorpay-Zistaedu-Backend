@@ -18,8 +18,8 @@ export function App() {
     <>
       <Router>
         <Switch>
-          {/* <Route exact path="/" component={RegistrationPage} /> */}
-          <ProtectedRoute exact path="/" component={EventDetailsPage} />
+          <Route exact path="/" component={RegistrationPage} />
+          <ProtectedRoute exact path="/event" component={EventDetailsPage} />
           <Route path="*" component={() => {
             return (
               <div style={{ display: 'flex', justifyContent: 'center', padding: '30px' }}>

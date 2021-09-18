@@ -54,12 +54,12 @@ export const rows = [
     {
       id: 9,
       name: '9 Events',
-      price: 12400
+      price: 12375
     },
     {
       id: 10,
       name: '10 Events',
-      price: 13800
+      price: 13750
   },
 ];
 

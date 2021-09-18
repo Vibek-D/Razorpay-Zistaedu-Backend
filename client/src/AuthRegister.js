@@ -1,6 +1,7 @@
 class AuthRegister {
     constructor() {
       this.authenticated = true;
+      this.registerUserData = null;
     }
   
     login(cb) {

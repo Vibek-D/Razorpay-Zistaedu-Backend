@@ -16,10 +16,10 @@ function RegistrationPage({ history }) {
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     const submit = () => {
-        console.log(formValues);
         axios.post('/submit', formValues)
         .then(response => {
             console.log(response);
+            AuthRegister.registerUserData = response;
         });
     };
 
