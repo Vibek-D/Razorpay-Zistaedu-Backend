@@ -31,7 +31,6 @@ const razorpay = new Razorpay({
 const port = process.env.PORT || 3001;
 
 app.set('view engine', 'ejs');
-
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -76,6 +75,10 @@ app.post('/submit', async (req, res) => {
     console.log(newUser)
     await newUser.save();
     res.json(newUser);
+});
+
+app.post('/mail', async (req, res) => {
+    sendMail(req);
 });
 
 
