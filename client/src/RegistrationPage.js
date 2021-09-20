@@ -16,8 +16,9 @@ function RegistrationPage({ history }) {
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     const submit = async () => {
-        console.log('submit');
-        await axios.post('/submit', formValues)
+        console.log(window.location.host);
+        const host = window.location.host;
+        await axios.post(`/submit`, formValues)
         .then(response => {
             console.log(response);
             AuthRegister.registerUserData = response;
@@ -27,7 +28,7 @@ function RegistrationPage({ history }) {
                 });
             }, 2000);
         })
-        await axios.post('/mail', formValues);
+        await axios.post(`${host}/mail`, formValues);
     };
 
     const handleChange = (e) => {

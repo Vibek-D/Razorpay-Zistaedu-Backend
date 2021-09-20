@@ -151,9 +151,9 @@ export default function EventSelection() {
       receipt: id,
     }
 
-    axios.post('/order', orders)
+    axios.post(`/order`, orders)
       .then(response => {
-        console.log(`response`, response);
+        console.log(response);
         let options = {
           "key": "rzp_test_GYtMuGsAOvJ5sO",
           "order_id": response.data.id,
@@ -163,7 +163,7 @@ export default function EventSelection() {
           "name": "Amit Ahuja",
           "description": "Zista Education ",
           "image": "https://media-exp1.licdn.com/dms/image/C510BAQEzvaYnuT6NuQ/company-logo_200_200/0/1529486515702?e=2159024400&v=beta&t=E7jays0m1qxFLUVfLXHOokyAMuHaKEqQ07uj66BLIow",
-          "callback_url": "/order_complete",
+          "callback_url": `/order_complete`,
           "notes": {
             "address": "ZistaEdu Corporate Office Mumbai"
           },
