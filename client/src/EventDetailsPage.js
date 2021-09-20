@@ -9,7 +9,7 @@ import { useHistory } from "react-router-dom";
 function EventDetailsPage() {
     const history = useHistory();
     React.useEffect(() => {
-        if (AuthRegister.registerUserData) {
+        if (!AuthRegister.registerUserData) {
             history.push('/');
         }
     }, [history]);
@@ -21,11 +21,11 @@ function EventDetailsPage() {
                 </Typography>
             </Box>
             <Box display='flex' justifyContent='center' flexDirection='column' m={4}>
-                <Typography variant='h5' mb={3} sx={{ fontFamily: 'Exo', fontWeight: '800' }}>PARTICIPATION FEE DETAILS:</Typography>
+                <Typography variant='h5' mb={3} sx={{ fontFamily: 'Exo', fontWeight: '800' }}>PARTICIPATION FEE DETAILS</Typography>
                 <DataComponent />
             </Box>
             <Box display='flex' justifyContent='center' flexDirection='column' m={4}>
-                <Typography variant='h5' mb={3} sx={{ fontFamily: 'Exo', fontWeight: '800' }}>EVENTS SELECTION DETAILS:</Typography>
+                <Typography variant='h5' mb={3} sx={{ fontFamily: 'Exo', fontWeight: '800' }}>EVENTS SELECTION DETAILS</Typography>
                 <EventSelection />
             </Box>
         </Box>

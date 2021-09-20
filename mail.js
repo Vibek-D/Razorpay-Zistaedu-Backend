@@ -2,11 +2,15 @@ const nodemailer = require('nodemailer');
 
 const sendMail = (req) => {
     const output = `
-    <p>You have a new registration</p>
+    <h2>You have a new registration</h2>
     <h3>Registration Details</h3>
     <ul>  
-      <li>Name: ${req.body.fname} ${req.body.lname}</li>
+      <li>Name: ${req.body.fName} ${req.body.lName}</li>
       <li>Email: ${req.body.email}</li>
+      <li>Institute Name: ${req.body.instName}</li>
+      <li>Institute Address: ${req.body.instAddress}</li>
+      <li>Phone Number: ${req.body.phNumber}</li>
+      <li>Office Phone Number: ${req.body.officePhone}</li>
     </ul>
   `;
 
@@ -20,7 +24,7 @@ const sendMail = (req) => {
             rejectUnauthorized: false
         }
     });
-    
+
     const mailOptions = {
         from: 'twinkiestwinky1998@gail.com',
         to: req.body.email,

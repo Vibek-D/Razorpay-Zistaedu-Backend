@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 import "./App.css";
 import React from "react";
+import { Helmet } from "react-helmet";
 import EventDetailsPage from "./EventDetailsPage";
 import RegistrationPage from "./RegistrationPage";
 import { ProtectedRoute } from "./ProtectedRoute";
@@ -16,6 +17,9 @@ export function App() {
 
   return (
     <>
+      <Helmet>
+        <title>Zista Events</title>
+      </Helmet>
       <Router>
         <Switch>
           <Route exact path="/" component={RegistrationPage} />
