@@ -35,7 +35,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.post('/order', async (req, res) => {
+app.post('/api/order', async (req, res) => {
     let options = {
         currency: req.body.currency,
         amount: req.body.amount,
@@ -47,11 +47,11 @@ app.post('/order', async (req, res) => {
     });
 });
 
-app.get('/', (req, res) => {
+app.get('/api', (req, res) => {
     res.send('Server Pinged ');
 });
 
-app.post('/order_complete', async (req, res) => {
+app.post('/api/order_complete', async (req, res) => {
     await razorpay.payments.fetch(req.body.razorpay_payment_id).then((resp) => {
         console.log(`final`, resp)
         if (resp.status === 'authorized' || resp.status === 'captured') {
@@ -62,7 +62,7 @@ app.post('/order_complete', async (req, res) => {
     });
 });
 
-app.post('/submit', async (req, res) => {
+app.post('/api/submit', async (req, res) => {
     let newUser = new zistaEduUserModel({ 
         email: req.body.email,
         fName: req.body.fName,
@@ -77,7 +77,7 @@ app.post('/submit', async (req, res) => {
     res.json(newUser);
 });
 
-app.post('/mail', async (req, res) => {
+app.post('/api/mail', async (req, res) => {
     sendMail(req);
 });
 
