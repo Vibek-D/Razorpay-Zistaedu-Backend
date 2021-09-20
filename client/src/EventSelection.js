@@ -250,7 +250,7 @@ export default function EventSelection() {
         </Table>
       </TableContainer>
       <Box display="flex" justifyContent="center">
-        <Button sx={{ width: "250px", height: "45px", m: "40px" }} variant="contained" color="primary" onClick={(event) => handleClickOpen(event)}>
+        <Button sx={{ width: "300px", height: "45px", m: "40px", backgroundColor: '#EF6C00' }} variant="contained" onClick={(event) => handleClickOpen(event)}>
           Submit Order
         </Button>
       </Box>
