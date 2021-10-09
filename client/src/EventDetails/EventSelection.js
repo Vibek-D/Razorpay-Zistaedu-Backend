@@ -146,7 +146,7 @@ export default function EventSelection() {
   const razorpayPayment = (event) => {
     let id = shortid.generate();
     let orders = {
-      amount: (mainEventPrice + webinarPrice + breakoutPrice),
+      amount: ((mainEventPrice + webinarPrice + breakoutPrice) * 100).toString(),
       currency: "USD",
       receipt: id,
     }
@@ -155,7 +155,7 @@ export default function EventSelection() {
       .then(response => {
         console.log(response);
         let options = {
-          "key": "rzp_test_GYtMuGsAOvJ5sO",
+          "key": "rzp_test_AAZSUIplmuGJ7f",
           "order_id": response.data.id,
           "amount": response.data.amount,
           "currency": response.data.currency,

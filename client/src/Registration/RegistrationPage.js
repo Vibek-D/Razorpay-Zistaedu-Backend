@@ -1,9 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import "./App.css";
+import "../App.css";
 import axios from "axios";
-import logo from './logo.png';
+import logo from '../logo.png';
 import Box from '@material-ui/core/Box';
-import AuthRegister from "./AuthRegister";
+import AuthRegister from "../AuthRegister";
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import React, { useState, useEffect } from 'react';
@@ -16,7 +16,6 @@ function RegistrationPage({ history }) {
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     const submit = async () => {
-        console.log(window.location.host);
         const host = window.location.host;
         await axios.post(`/submit`, formValues)
         .then(response => {
@@ -27,8 +26,11 @@ function RegistrationPage({ history }) {
                     history.push("/event");
                 });
             }, 2000);
+        });
+        await axios.post(`${host}/mail`, formValues)
+        .then((response) => {
+            console.log(response);
         })
-        await axios.post(`${host}/mail`, formValues);
     };
 
     const handleChange = (e) => {
@@ -93,7 +95,7 @@ function RegistrationPage({ history }) {
     return (
         <Box sx={{ fontFamily: 'Exo', fontWeight: '700' }} backgroundColor="white" height="100%" display="flex" justifyContent="center" alignItems="center" flex="1" flexDirection="column">
             <Box>
-                <Paper elevation={0} sx={{ width: '100vw', height: '100px', mb: '30px', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', backgroundColor: 'white' }}>
+                <Paper elevation={0} sx={{ width: '100vw', height: '100px', mb: '60px', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', backgroundColor: 'white' }}>
                     <Box display="flex">
                         <Box display='flex' width="330px" justifyContent="center" backgroundColor="black" borderRadius="20px">
                             <img style={{ marginLeft: '15px' }} src={logo} alt="Logo" />

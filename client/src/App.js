@@ -2,8 +2,8 @@
 import "./App.css";
 import React from "react";
 import { Helmet } from "react-helmet";
-import EventDetailsPage from "./EventDetailsPage";
-import RegistrationPage from "./RegistrationPage";
+import EventDetailsPage from "./EventDetails/EventDetailsPage";
+import RegistrationPage from "./Registration/RegistrationPage";
 import { ProtectedRoute } from "./ProtectedRoute";
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
