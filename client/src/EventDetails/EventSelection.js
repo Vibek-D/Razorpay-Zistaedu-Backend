@@ -50,7 +50,7 @@ function EnhancedTableHead(props) {
     <TableHead sx={{ pt: 5 }}>
       <TableRow>
         {headCells.map((headCell) => (
-          <TableCell key={headCell.id} align={headCell.id === 'name' ? 'left' : 'center'}>
+          <TableCell sx={{ backgroundColor: 'orange' }} key={headCell.id} align={headCell.id === 'name' ? 'left' : 'center'}>
             <Typography variant="h6">{headCell.label}</Typography>
           </TableCell>
         ))}
@@ -175,7 +175,7 @@ export default function EventSelection() {
         let rzp = new window.Razorpay(options);
         rzp.open();
       }
-    );
+      );
   }
 
   const [open, setOpen] = React.useState(false);
@@ -199,7 +199,7 @@ export default function EventSelection() {
 
   return (
     <div>
-      <TableContainer component={Paper} elevation={1} sx={{ backgroundColor: 'whitesmoke' }}>
+      <TableContainer component={Paper} elevation={1} sx={{ backgroundColor: 'whitesmoke', overflow: 'hidden' }}>
         <Table size={'small'}>
           <EnhancedTableHead
             numSelected={selected.length}
@@ -219,24 +219,33 @@ export default function EventSelection() {
                   key={row.name}
                   selected={isItemSelected}
                 >
-                  <TableCell component="th" id={labelId} scope="row" sx={{ borderRight: 'solid 1px #DCDCDC' }}>{row.name}</TableCell>
-                  <TableCell align="center" sx={{ borderRight: 'solid 1px #DCDCDC' }}>
+                  <TableCell component="th" id={labelId} scope="row" sx={{ border: 'solid 1px orange' }}>{row.name}</TableCell>
+                  <TableCell align="center" sx={{ border: 'solid 1px orange' }}>
                     <Checkbox
+                      style={{
+                        color: "orange",
+                      }}
                       checked={isItemSelected}
                       onChange={(event) => handleClick(event, row.name)}
                       inputProps={{ 'aria-labelledby': labelId }}
                     />
                   </TableCell>
-                  <TableCell align="center" sx={{ borderRight: 'solid 1px #DCDCDC' }}>
+                  <TableCell align="center" sx={{ border: 'solid 1px orange' }}>
                     <Checkbox
+                      style={{
+                        color: !row.disabledToggle ? 'orange' : '',
+                      }}
                       checked={row.breakoutCheckbox}
                       disabled={row.disabledToggle}
                       onChange={(event) => handleBreakoutPrice(event, row.name)}
                       inputProps={{ 'aria-labelledby': labelId }}
                     />
                   </TableCell>
-                  <TableCell align="center">
+                  <TableCell align="center" sx={{ border: 'solid 1px orange' }}>
                     <Checkbox
+                      style={{
+                        color: !row.disabledToggle ? 'orange' : '',
+                      }}
                       checked={row.webinarCheckbox}
                       disabled={row.disabledToggle}
                       onChange={(event) => handleWebinarPrice(event, row.name)}
@@ -250,8 +259,19 @@ export default function EventSelection() {
         </Table>
       </TableContainer>
       <Box display="flex" justifyContent="center">
-        <Button sx={{ width: "300px", height: "45px", m: "40px", backgroundColor: '#EF6C00' }} variant="contained" onClick={(event) => handleClickOpen(event)}>
-          Submit Order
+        <Button 
+            sx={{ width: "300px", 
+            height: "45px", 
+            m: "40px", 
+            backgroundColor: '#EF6C00',
+            '&:hover': {
+              backgroundColor: '#FB8C00',
+              boxShadow: 'none',
+            }
+         }} 
+          variant="contained" 
+          onClick={(event) => handleClickOpen(event)}>
+            Submit Order
         </Button>
       </Box>
       <Dialog
