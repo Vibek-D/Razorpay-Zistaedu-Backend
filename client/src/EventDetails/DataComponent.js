@@ -1,12 +1,12 @@
 import React from 'react';
 import Table from '@material-ui/core/Table';
+import Paper from '@material-ui/core/Paper';
+import TableRow from '@material-ui/core/TableRow';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography'
+import TableContainer from '@material-ui/core/TableContainer';
 
 export const rows = [
     {   
@@ -70,13 +70,13 @@ export default function BasicTable() {
       <Table size={'small'}>
         <TableHead>
           <TableRow>
-            <TableCell colSpan={2}>
+            <TableCell colSpan={2} sx={{ backgroundColor: 'orange' }}>
                 <Typography variant="h6">Virtual Expo</Typography>
             </TableCell>
-            <TableCell align="center">
+            <TableCell align="center" sx={{ backgroundColor: 'orange' }}>
                 <Typography variant="h6">Breakout Session</Typography>
             </TableCell>
-            <TableCell align="center">
+            <TableCell align="center" sx={{ backgroundColor: 'orange' }}>
                 <Typography variant="h6">Post-Event Lead Nurturing Webinar</Typography>
             </TableCell>
           </TableRow>
@@ -84,9 +84,9 @@ export default function BasicTable() {
         <TableBody>
           {rows.map((row) => (
             <TableRow key={row.name}>
-              <TableCell component="th" scope="row" sx={{ borderRight: 'solid 1px #DCDCDC' }}>{row.name}</TableCell>
-              <TableCell component="th" scope="row" sx={{ borderRight: 'solid 1px #DCDCDC' }}>$ {row.price}</TableCell>
-              {row.breakout && (<TableCell rowSpan={10} align="center" sx={{ borderRight: 'solid 1px #DCDCDC' }}>$ {row.breakout} per event</TableCell>)}
+              <TableCell component="th" scope="row" sx={{ border: 'solid 1px orange' }}>{row.name}</TableCell>
+              <TableCell component="th" scope="row" sx={{ border: 'solid 1px orange' }}>$ {row.price}</TableCell>
+              {row.breakout && (<TableCell rowSpan={10} align="center" sx={{ border: 'solid 1px orange' }}>$ {row.breakout} per event</TableCell>)}
               {row.postEvent && (<TableCell rowSpan={10} align="center">$ {row.postEvent} per event</TableCell>)}
             </TableRow>
           ))}

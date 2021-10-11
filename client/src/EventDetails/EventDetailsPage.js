@@ -1,6 +1,6 @@
 import React from 'react';
 import Box from '@material-ui/core/Box';
-import AuthRegister from "./AuthRegister";
+import AuthRegister from "../AuthRegister";
 import DataComponent from "./DataComponent";
 import EventSelection from "./EventSelection";
 import { Typography } from "@material-ui/core";
@@ -14,9 +14,9 @@ function EventDetailsPage() {
         }
     }, [history]);
     return (
-        <Box flex="1">
+        <Box flex="1" sx={{ backgroundColor: '#FFD580' }}>
             <Box>
-                <Typography variant="h3" color="initial" sx={{ fontFamily: 'Exo', fontWeight: '500', ml: '25px', mt: '15px' }}>
+                <Typography variant="h3" color="initial" sx={{ fontFamily: 'Exo', fontWeight: '500', ml: '25px', pt: '15px' }}>
                     Welcome {AuthRegister.registerUserData.data.fName}  {AuthRegister.registerUserData.data.lName}
                 </Typography>
             </Box>

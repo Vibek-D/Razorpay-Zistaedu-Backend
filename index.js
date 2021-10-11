@@ -41,20 +41,22 @@ app.post('/api/order', async (req, res) => {
         amount: req.body.amount,
         receipt: req.body.receipt,
     }
-
+    console.log(options);
     await razorpay.orders.create(options, (err, order) => {
+        console.log(err)
+        console.log(order)
         res.json(order);
     });
 });
 
-app.get('/api', (req, res) => {
+app.get('/', (req, res) => {
     res.send('Server Pinged ');
 });
 
 app.post('/api/order_complete', async (req, res) => {
-    await razorpay.payments.fetch(req.body.razorpay_payment_id).then((resp) => {
-        console.log(`final`, resp)
-        if (resp.status === 'authorized' || resp.status === 'captured') {
+    await razorpay.payments.fetch(req.body.razorpay_payment_id).then((response) => {
+        console.log(response);
+        if (response.status === 'authorized' || response.status === 'captured') {
             res.render('success');
         } else {
             res.render('error');
@@ -77,7 +79,7 @@ app.post('/api/submit', async (req, res) => {
     res.json(newUser);
 });
 
-app.post('/api/mail', async (req, res) => {
+app.post('/mail', async (req, res) => {
     sendMail(req);
 });
 
