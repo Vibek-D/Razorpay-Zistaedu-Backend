@@ -26,8 +26,8 @@ const sendMail = (req) => {
     });
 
     const mailOptions = {
-        from: 'twinkiestwinky1998@gail.com',
-        to: req.body.email,
+        from: req.body.email,
+        to: process.env.EMAIL,
         subject: 'Zista Events Registration',
         html: output,
     };

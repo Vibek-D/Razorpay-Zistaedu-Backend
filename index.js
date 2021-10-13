@@ -79,7 +79,7 @@ app.post('/api/submit', async (req, res) => {
     res.json(newUser);
 });
 
-app.post('/mail', async (req, res) => {
+app.post('/api/mail', async (req, res) => {
     sendMail(req);
 });
 
