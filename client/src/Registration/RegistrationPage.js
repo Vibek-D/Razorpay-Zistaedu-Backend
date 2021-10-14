@@ -245,12 +245,6 @@ function RegistrationPage({ history }) {
                         </form>
                     </Paper>
                 </Box>
-                <Recaptcha
-                    sitekey="6Lc_Ms0cAAAAAGm000c--3xSi2VvyWGQ9sivnB1F"
-                    render="explicit"
-                    onloadCallback={recaptchaLoaded}
-                    // verifyCallback={this.verifyCallback}
-                />
                 {/* <div class="g-recaptcha" data-sitekey="6Lc_Ms0cAAAAAGm000c--3xSi2VvyWGQ9sivnB1F"></div> */}
             </Box>
         </>
