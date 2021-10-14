@@ -277,8 +277,9 @@ export default function EventSelection() {
       <Dialog
         open={open}
         onClose={handleClose}
+        
       >
-        <DialogContent>
+        <DialogContent sx={{ backgroundColor: '#FFD580' }}>
           <DialogContentText id="razorpayDialogDescription">
             <Typography variant='h5' mb={3} mt={3}>ORDER SUMMARY:</Typography>
             <Paper elevation={1}>
@@ -292,11 +293,23 @@ export default function EventSelection() {
             </Paper>
           </DialogContentText>
         </DialogContent>
-        <DialogActions sx={{ pb: '20px', pr: '24px', pl: '24px' }}>
-          <Button onClick={handleClose} variant="contained" color="primary">
+        <DialogActions sx={{ pb: '20px', pr: '24px', pl: '24px', backgroundColor: '#FFD580' }}>
+          <Button onClick={handleClose} variant="contained" color="primary" sx={{
+            backgroundColor: '#EF6C00',
+            '&:hover': {
+              backgroundColor: '#FB8C00',
+              boxShadow: 'none',
+            }
+          }}>
             Cancel
           </Button>
-          <Button onClick={razorpayPayment} variant="contained" color="primary" autoFocus>
+          <Button onClick={razorpayPayment} variant="contained" color="primary" autoFocus sx={{
+            backgroundColor: '#EF6C00',
+            '&:hover': {
+              backgroundColor: '#FB8C00',
+              boxShadow: 'none',
+            }
+          }}>
             Confirm
           </Button>
         </DialogActions>
@@ -311,7 +324,13 @@ export default function EventSelection() {
           </DialogContentText>
         </DialogContent>
         <DialogActions sx={{ pb: '20px', pr: '24px', pl: '24px' }}>
-          <Button onClick={handleCloseEmptyCart} color="primary" variant="contained" autoFocus>
+          <Button onClick={handleCloseEmptyCart} color="primary" variant="contained" autoFocus sx={{
+            backgroundColor: '#EF6C00',
+            '&:hover': {
+              backgroundColor: '#FB8C00',
+              boxShadow: 'none',
+            }
+          }}>
             Close
           </Button>
         </DialogActions>

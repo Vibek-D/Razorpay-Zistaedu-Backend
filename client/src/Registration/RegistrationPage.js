@@ -113,9 +113,6 @@ function RegistrationPage({ history }) {
                     <Box display='flex' justifyContent="center" backgroundColor="black" borderRadius="20px">
                         <img style={{ marginLeft: '15px' }} src={logo} alt="Logo" />
                     </Box>
-                    <Typography variant="h3" color="initial" sx={{ fontFamily: 'Exo', fontWeight: '800', mt: '5px', ml: '5px' }}>
-                        REGISTER FOR ZISTA EVENTS
-                    </Typography>
                 </Box>
                 <Box display="flex" justifyContent="center">
                     <Paper elevation={4} sx={{ p: '0 70px', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', backgroundColor: 'whitesmoke' }}>
@@ -123,7 +120,7 @@ function RegistrationPage({ history }) {
                             Registration Form
                         </Typography>
                         {progress ? (
-                            <span style={{ fontFamily: 'Exo' }} className="success-msg">Form submitted successfully</span>
+                            <Box style={{ fontFamily: 'Exo' }} className="success-msg" flex="1">Registration Successful! Redirecting...</Box>
                         ) : ''}
                         <form onSubmit={handleSubmit} noValidate style={{ width: '450px', position: 'relative' }}>
                             <div className="form-row">
