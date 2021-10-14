@@ -3,6 +3,7 @@ import "../App.css";
 import axios from "axios";
 import logo from '../logo.png';
 import Box from '@material-ui/core/Box';
+import Recaptcha from 'react-recaptcha';
 import AuthRegister from "../AuthRegister";
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
@@ -99,6 +100,10 @@ function RegistrationPage({ history }) {
             setProgress(true);
         }
     }, [formErrors, isSubmitting]);
+
+    function recaptchaLoaded() {
+        console.log('Captcha loaded');
+    }
 
     return (
         <>
@@ -240,6 +245,13 @@ function RegistrationPage({ history }) {
                         </form>
                     </Paper>
                 </Box>
+                <Recaptcha
+                    sitekey="6Lc_Ms0cAAAAAGm000c--3xSi2VvyWGQ9sivnB1F"
+                    render="explicit"
+                    onloadCallback={recaptchaLoaded}
+                    // verifyCallback={this.verifyCallback}
+                />
+                {/* <div class="g-recaptcha" data-sitekey="6Lc_Ms0cAAAAAGm000c--3xSi2VvyWGQ9sivnB1F"></div> */}
             </Box>
         </>
     );
