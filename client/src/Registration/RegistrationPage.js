@@ -3,25 +3,44 @@ import "../App.css";
 import axios from "axios";
 import logo from '../logo.png';
 import Box from '@material-ui/core/Box';
-import Recaptcha from 'react-recaptcha';
+import List from '@material-ui/core/List';
 import AuthRegister from "../AuthRegister";
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
+import Dialog from '@material-ui/core/Dialog';
+import Checkbox from '@material-ui/core/Checkbox';
+import ListItem from '@material-ui/core/ListItem';
 import React, { useState, useEffect } from 'react';
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/core/Alert';
 import { CircularProgress } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContentText from '@material-ui/core/DialogContentText';
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 function RegistrationPage({ history }) {
     const intialValues = { email: "", fName: "", lName: "", instName: "", instAddress: "", phNumber: "", officePhone: "" };
     const [formErrors, setFormErrors] = useState({});
-    const [isSubmitting, setIsSubmitting] = useState(false);
     const [progress, setProgress] = useState(false);
+    const [termsClick, setTermsClick] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [termsCheckbox, setTermsCheckbox] = useState(false);
     const [formValues, setFormValues] = useState(intialValues);
+    const [checkboxValidation, setCheckboxValidation] = useState(false);
+    const [state, setState] = React.useState({
+        vertical: 'bottom',
+        horizontal: 'center',
+    });
+    const { vertical, horizontal } = state;
 
     const submit = async () => {
         await axios.post(`/submit`, formValues)
             .then(response => {
-                console.log(response);
                 AuthRegister.registerUserData = response;
                 setTimeout(function () {
                     AuthRegister.login(() => {
@@ -31,7 +50,6 @@ function RegistrationPage({ history }) {
             });
         await axios.post(`/mail`, formValues)
             .then((response) => {
-                console.log(response);
             });
     };
 
@@ -43,18 +61,31 @@ function RegistrationPage({ history }) {
     const handleSubmit = (e) => {
         e.preventDefault();
         setFormErrors(validate(formValues));
-        setIsSubmitting(true);
+        if (Object.keys(formErrors).length === 0 && !termsCheckbox) {
+            console.log(Object.keys(formErrors))
+            console.log(termsCheckbox);
+            setCheckboxValidation(true);
+        } else if (Object.keys(formErrors).length === 0 && termsCheckbox) {
+            setIsSubmitting(true);
+            console.log('false');
+            console.log(Object.keys(formErrors))
+        }
+    };
+
+    const termsLinkClick = (e) => {
+        setTermsClick(true);
+    }
+
+    const termsClose = () => {
+        setTermsClick(false);
     };
 
     const validate = (values) => {
         let errors = {};
         const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
-        const regexPhone = /^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/im;
 
         if (!values.officePhone) {
             errors.officePhone = "Cannot be blank";
-        } else if (!regexPhone.test(values.officePhone)) {
-            errors.officePhone = "Invalid number format";
         }
 
         if (!values.email) {
@@ -65,8 +96,6 @@ function RegistrationPage({ history }) {
 
         if (!values.phNumber) {
             errors.phNumber = "Cannot be blank";
-        } else if (!regexPhone.test(values.phNumber)) {
-            errors.phNumber = "Invalid number format";
         }
 
         if (values.fName === '') {
@@ -101,14 +130,21 @@ function RegistrationPage({ history }) {
         }
     }, [formErrors, isSubmitting]);
 
-    function recaptchaLoaded() {
-        console.log('Captcha loaded');
+    useEffect(() => {
+        console.log(formErrors)
+    }, [formErrors]);
+
+    const handleClose = () => {
+        setCheckboxValidation(false);
+    };
+
+    const setCheckboxToggle = () => {
+        setTermsCheckbox(true);
     }
 
     return (
         <>
-            <Box sx={{ fontFamily: 'Exo', fontWeight: '700' }} xs={3} overflow="hidden" height="100vh" backgroundColor="#FFD580" display="flex" justifyContent="start" alignItems="center" flex="1" flexDirection="column">
-                {console.log(`progress`, progress)}
+            <Box sx={{ fontFamily: 'Exo', fontWeight: '700' }} xs={3} height="100vh" backgroundColor="whitesmoke" display="flex" justifyContent="start" alignItems="center" flex="1" flexDirection="column">
                 {progress ? (
                     <Box display="flex" justifyContent="center" alignItems="center" position="absolute" zIndex="100" top="50vh">
                         <CircularProgress color="primary" />
@@ -121,7 +157,7 @@ function RegistrationPage({ history }) {
                 </Box>
                 <Box display="flex" justifyContent="center">
                     <Paper elevation={4} sx={{ p: '0 70px', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', backgroundColor: 'whitesmoke' }}>
-                        <Typography mb='10px' mt="10px" variant="h3" color="grey" sx={{ fontFamily: 'Exo', fontWeight: '800' }}>
+                        <Typography mb='10px' mt="10px" variant="h4" color="grey" sx={{ fontFamily: 'Exo', fontWeight: '800' }}>
                             Registration Form
                         </Typography>
                         {progress ? (
@@ -233,9 +269,21 @@ function RegistrationPage({ history }) {
                                 )}
                             </div>
 
+                            <Box display="flex">
+                                <Checkbox sx={{
+                                    pl: 0, pb: 0, color: '#EF6C00',
+                                    '&.Mui-checked': {
+                                        color: '#FB8C00',
+                                    },
+                                }} onClick={setCheckboxToggle} />
+                                <Box color="black" sx={{ cursor: 'pointer', '&:hover': { color: '#EF6C00' } }} onClick={termsLinkClick}>
+                                    <Typography sx={{ pt: 1 }} variant="subtitle2">I understand and agree to abide by the terms and conditions listed above.</Typography>
+                                </Box>
+                            </Box>
+
                             <Button sx={{
                                 mt: '25px',
-                                mb: '50px',
+                                mb: '30px',
                                 bgcolor: '#EF6C00',
                                 '&:hover': {
                                     backgroundColor: '#FB8C00',
@@ -247,6 +295,92 @@ function RegistrationPage({ history }) {
                 </Box>
                 {/* <div class="g-recaptcha" data-sitekey="6Lc_Ms0cAAAAAGm000c--3xSi2VvyWGQ9sivnB1F"></div> */}
             </Box>
+            <Dialog
+                open={termsClick}
+                onClose={termsClose}
+            >
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                        <nav aria-label="secondary mailbox folders">
+                            <List>
+                                <ListItem disablePadding>
+                                    <Typography variant="subtitle2" color="initial">
+                                        <span style={{ marginRight: 10 }}>&#10003;</span>Fees once paid cannot be refunded. If an institute wishes to cancel its
+                                        participation, Zista Education can remove the institute’s logo and brand
+                                        identifiers from the event collateral.
+                                    </Typography>
+                                </ListItem>
+                                <ListItem disablePadding>
+                                    <Typography variant="subtitle2" color="initial">
+                                        <span style={{ marginRight: 10 }}>&#10003;</span>An educational institution may choose to have up to two participants on
+                                        the day of the event.
+                                    </Typography>
+                                </ListItem>
+                                <ListItem disablePadding>
+                                    <Typography variant="subtitle2" color="initial">
+                                        <span style={{ marginRight: 10 }}>&#10003;</span>For each extra participant, an extra fee will be applicable.
+                                    </Typography>
+                                </ListItem>
+                                <ListItem disablePadding>
+                                    <Typography variant="subtitle2" color="initial">
+                                        <span style={{ marginRight: 10 }}>&#10003;</span>Applicant acknowledges and agrees that Zista Education shall not be liable
+                                        for any loss, injury delay or damage from any cause beyond its control.
+                                    </Typography>
+                                </ListItem>
+                                <ListItem disablePadding>
+                                    <Typography variant="subtitle2" color="initial">
+                                        <span style={{ marginRight: 10 }}>&#10003;</span>The individual(s) participating must have knowledge of their institution’s
+                                        admissions policies and procedures.
+                                    </Typography>
+                                </ListItem>
+                                <ListItem disablePadding>
+                                    <Typography variant="subtitle2" color="initial">
+                                        <span style={{ marginRight: 10 }}>&#10003;</span>Zista Education reserves the right to make changes to the event if, in its
+                                        judgment, the change will be in the best interest of the participants. This
+                                        may include changes to the date, time, technology, platform/software.
+                                    </Typography>
+                                </ListItem>
+                                <ListItem disablePadding>
+                                    <Typography variant="subtitle2" color="initial">
+                                        <span style={{ marginRight: 10 }}>&#10003;</span>All prices mentioned are based on the current exchange rates and are
+                                        subject to change.
+                                    </Typography>
+                                </ListItem>
+                                <ListItem disablePadding>
+                                    <Typography variant="subtitle2" color="initial">
+                                        <span style={{ marginRight: 10 }}>&#10003;</span>In case the educational institute changes the participant(s) attending the
+                                        event, Zista Education needs to be notified in writing, at least 14 days
+                                        prior to the event.
+                                    </Typography>
+                                </ListItem>
+                                <ListItem disablePadding>
+                                    <Typography variant="subtitle2" color="initial">
+                                        <span style={{ marginRight: 10 }}>&#10003;</span>An extra charge of 3.67% is applicable for payments made via credit card.
+                                        For any queries, please reach out to us at events@zistaeducation.com.
+                                    </Typography>
+                                </ListItem>
+                            </List>
+                        </nav>
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions sx={{ pb: '20px', pr: '24px', pl: '24px' }}>
+                    <Button onClick={termsClose} color="primary" variant="contained" autoFocus sx={{
+                        backgroundColor: '#EF6C00',
+                        '&:hover': {
+                            backgroundColor: '#FB8C00',
+                            boxShadow: 'none',
+                        }
+                    }}>
+                        Close
+                    </Button>
+                </DialogActions>
+            </Dialog>
+
+            <Snackbar anchorOrigin={{ vertical, horizontal }} key={vertical + horizontal} open={checkboxValidation} onClose={handleClose} autoHideDuration={10000}>
+                <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
+                    Please agree to the terms and conditions to continue.
+                </Alert>
+            </Snackbar>
         </>
     );
 }
