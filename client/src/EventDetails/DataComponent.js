@@ -16,7 +16,9 @@ export const rows = [
     priceWire: 1500,
     priceCreditCard: 1555,
     breakout: 500,
+    breakOutCreditCard: 518,
     postEvent: 350,
+    postEventCreditCard: 363,
   },
   {
     id: 2,

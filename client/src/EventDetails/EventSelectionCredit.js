@@ -59,11 +59,10 @@ function EnhancedTableHead(props) {
   );
 }
 
-export default function EventSelection({ paymentMethod, registerUserData, data }) {
+export default function EventSelectionCredit({ paymentMethod, registerUserData, data }) {
   const [selected, setSelected] = React.useState([]);
   const [webinarPrice, setWebinarPrice] = React.useState(0);
   const [breakoutPrice, setBreakoutPrice] = React.useState(0);
-  const [wireDetails, setWireDetails] = React.useState(false);
   const [creditError, setCreditError] = React.useState(false);
   const [mainEventPrice, setMainEventPrice] = React.useState(0);
 
@@ -87,9 +86,9 @@ export default function EventSelection({ paymentMethod, registerUserData, data }
     result.breakoutCheckbox = !result.breakoutCheckbox;
 
     if (result.breakoutCheckbox) {
-      setBreakoutPrice(prev => prev + 500);
+      setBreakoutPrice(prev => prev + 518);
     } else {
-      setBreakoutPrice(prev => prev - 500);
+      setBreakoutPrice(prev => prev - 518);
     }
   }
 
@@ -99,9 +98,9 @@ export default function EventSelection({ paymentMethod, registerUserData, data }
     })
     result.webinarCheckbox = !result.webinarCheckbox;
     if (result.webinarCheckbox) {
-      setWebinarPrice(prev => prev + 350);
+      setWebinarPrice(prev => prev + 363);
     } else {
-      setWebinarPrice(prev => prev - 350);
+      setWebinarPrice(prev => prev - 363);
     }
   }
 
@@ -114,10 +113,10 @@ export default function EventSelection({ paymentMethod, registerUserData, data }
 
     if (result.disabledToggle) {
       if (result.webinarCheckbox) {
-        setWebinarPrice(prev => prev - 350);
+        setWebinarPrice(prev => prev - 363);
       }
       if (result.breakoutCheckbox) {
-        setBreakoutPrice(prev => prev - 500);
+        setBreakoutPrice(prev => prev - 518);
       }
       result.webinarCheckbox = false;
       result.breakoutCheckbox = false;
@@ -150,47 +149,39 @@ export default function EventSelection({ paymentMethod, registerUserData, data }
     return selected.indexOf(name) !== -1;
   }
 
-  // const razorpayPayment = (event) => {
-  //   let id = shortid.generate();
-  //   let orders = {
-  //     amount: ((mainEventPrice + webinarPrice + breakoutPrice) * 100).toString(),
-  //     currency: "USD",
-  //     receipt: id,
-  //   }
+  const razorpayPayment = (event) => {
+    let id = shortid.generate();
+    let orders = {
+      amount: ((mainEventPrice + webinarPrice + breakoutPrice) * 100).toString(),
+      currency: "USD",
+      receipt: id,
+    }
 
-  //   axios.post(`/order`, orders)
-  //     .then(response => {
-  //       console.log(response);
-  //       let options = {
-  //         "key": "rzp_test_AAZSUIplmuGJ7f",
-  //         "order_id": response.data.id,
-  //         "amount": response.data.amount,
-  //         "currency": response.data.currency,
-  //         "offer_id": response.data.offer_id,
-  //         "name": "Amit Ahuja",
-  //         "description": "Zista Education ",
-  //         "image": "https://media-exp1.licdn.com/dms/image/C510BAQEzvaYnuT6NuQ/company-logo_200_200/0/1529486515702?e=2159024400&v=beta&t=E7jays0m1qxFLUVfLXHOokyAMuHaKEqQ07uj66BLIow",
-  //         "callback_url": `/order_complete`,
-  //         "notes": {
-  //           "address": "ZistaEdu Corporate Office Mumbai"
-  //         },
-  //         "theme": {
-  //           "color": "#FF8500"
-  //         }
-  //       };
+    axios.post(`/order`, orders)
+      .then(response => {
+        console.log(response);
+        let options = {
+          "key": "rzp_test_AAZSUIplmuGJ7f",
+          "order_id": response.data.id,
+          "amount": response.data.amount,
+          "currency": response.data.currency,
+          "offer_id": response.data.offer_id,
+          "name": "Amit Ahuja",
+          "description": "Zista Education ",
+          "image": "https://media-exp1.licdn.com/dms/image/C510BAQEzvaYnuT6NuQ/company-logo_200_200/0/1529486515702?e=2159024400&v=beta&t=E7jays0m1qxFLUVfLXHOokyAMuHaKEqQ07uj66BLIow",
+          "callback_url": `/order_complete`,
+          "notes": {
+            "address": "ZistaEdu Corporate Office Mumbai"
+          },
+          "theme": {
+            "color": "#FF8500"
+          }
+        };
 
-  //       let rzp = new window.Razorpay(options);
-  //       rzp.open();
-  //     }
-  //     );
-  // }
-
-  const wireDetail = () => {
-    setWireDetails(true);
-  }
-
-  const handleCloseWireDetails = () => {
-    setWireDetails(false);
+        let rzp = new window.Razorpay(options);
+        rzp.open();
+      }
+      );
   }
 
   const [open, setOpen] = React.useState(false);
@@ -303,7 +294,7 @@ export default function EventSelection({ paymentMethod, registerUserData, data }
       >
         <DialogContent sx={{ backgroundColor: 'whitesmoke' }}>
           <DialogContentText id="razorpayDialogDescription">
-          <Typography variant='h5' p={1} mb={3} mt={3} sx={{ backgroundColor: 'orange', borderRadius: '5px' }}>ORDER SUMMARY:</Typography>
+            <Typography variant='h5' p={1} mb={3} mt={3} sx={{ backgroundColor: 'orange', borderRadius: '5px' }}>ORDER SUMMARY:</Typography>
             <Paper elevation={1}>
               <Box display='flex' justifyContent='center' flexDirection='column' p={2}>
                 <Typography variant="h6">Main Event Total Price: $ {mainEventPrice}</Typography>
@@ -325,7 +316,7 @@ export default function EventSelection({ paymentMethod, registerUserData, data }
           }}>
             Cancel
           </Button>
-          <Button onClick={wireDetail} variant="contained" color="primary" autoFocus sx={{
+          <Button onClick={razorpayPayment} variant="contained" color="primary" autoFocus sx={{
             backgroundColor: '#EF6C00',
             '&:hover': {
               backgroundColor: '#FB8C00',
@@ -374,71 +365,6 @@ export default function EventSelection({ paymentMethod, registerUserData, data }
         </DialogContent>
         <DialogActions sx={{ pb: '20px', pr: '24px', pl: '24px' }}>
           <Button onClick={handleCloseCreditError} color="primary" variant="contained" autoFocus sx={{
-            backgroundColor: '#EF6C00',
-            '&:hover': {
-              backgroundColor: '#FB8C00',
-              boxShadow: 'none',
-            }
-          }}>
-            Close
-          </Button>
-        </DialogActions>
-      </Dialog>
-
-      <Dialog
-        open={wireDetails}
-        onClose={handleClose}
-      >
-        <DialogContent sx={{ pb: 1 }}>
-          <DialogContentText id="alert-dialog-description">
-            <nav aria-label="secondary mailbox folders">
-              <List>
-                <ListItem disablePadding>
-                  <Typography variant="subtitle2" color="initial">
-                    Bank Name: Federal Bank
-                  </Typography>
-                </ListItem>
-                <ListItem disablePadding>
-                  <Typography variant="subtitle2" color="initial">
-                    Company Name: Zista Education Services LLP
-                  </Typography>
-                </ListItem>
-                <ListItem disablePadding>
-                  <Typography variant="subtitle2" color="initial">
-                    Account Type: Current
-                  </Typography>
-                </ListItem>
-                <ListItem disablePadding>
-                  <Typography variant="subtitle2" color="initial">
-                    Account Number: 18050200003353
-                  </Typography>
-                </ListItem>
-                <ListItem disablePadding>
-                  <Typography variant="subtitle2" color="initial">
-                    Branch Name: Ghatkopar
-                  </Typography>
-                </ListItem>
-                <ListItem disablePadding>
-                  <Typography variant="subtitle2" color="initial">
-                    Branch Address: Gr. Floor, Trikal Co-Op. Housing Society Ltd., 90 Feet Road, Ghatkopar East, Mumbai 400075, Maharashtra, India.
-                  </Typography>
-                </ListItem>
-                <ListItem disablePadding>
-                  <Typography variant="subtitle2" color="initial">
-                    IFSC Code: FDRL0001805
-                  </Typography>
-                </ListItem>
-                <ListItem disablePadding>
-                  <Typography variant="subtitle2" color="initial">
-                    SWIFT CODE: FDRLINBBIBD
-                  </Typography>
-                </ListItem>
-              </List>
-            </nav>
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions sx={{ pb: '20px', pr: '24px', pl: '24px', pt: 0 }}>
-          <Button onClick={handleCloseWireDetails} color="primary" variant="contained" autoFocus sx={{
             backgroundColor: '#EF6C00',
             '&:hover': {
               backgroundColor: '#FB8C00',
