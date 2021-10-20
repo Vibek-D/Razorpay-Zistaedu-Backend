@@ -8,11 +8,11 @@ import AuthRegister from "../AuthRegister";
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
+import MuiAlert from '@material-ui/core/Alert';
 import Checkbox from '@material-ui/core/Checkbox';
+import Snackbar from '@material-ui/core/Snackbar';
 import ListItem from '@material-ui/core/ListItem';
 import React, { useState, useEffect } from 'react';
-import Snackbar from '@material-ui/core/Snackbar';
-import MuiAlert from '@material-ui/core/Alert';
 import { CircularProgress } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -24,14 +24,14 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 });
 
 function RegistrationPage({ history }) {
-    const intialValues = { email: "", fName: "", lName: "", instName: "", instAddress: "", phNumber: "", officePhone: "" };
+    const intialValues = { email: "", fName: "", lName: "", instName: "", instAddress: "", phNumber: "", officePhone: "", termsToggle: false };
     const [formErrors, setFormErrors] = useState({});
     const [progress, setProgress] = useState(false);
+    const [snackbar, setSnackbar] = useState(false);
     const [termsClick, setTermsClick] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const [termsCheckbox, setTermsCheckbox] = useState(false);
     const [formValues, setFormValues] = useState(intialValues);
-    const [checkboxValidation, setCheckboxValidation] = useState(false);
+    const [handleSubmitCheck, setHandleSubmitCheck] = useState(false);
     const [state, setState] = React.useState({
         vertical: 'bottom',
         horizontal: 'center',
@@ -54,21 +54,21 @@ function RegistrationPage({ history }) {
     };
 
     const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormValues({ ...formValues, [name]: value });
+        let { name, value } = e.target;
+        if (name === 'termsToggle') {
+            value = true;
+            setFormValues({ ...formValues, [name]: value });
+        } else {
+            setFormValues({ ...formValues, [name]: value });
+        }
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        setHandleSubmitCheck(true);
         setFormErrors(validate(formValues));
-        if (Object.keys(formErrors).length === 0 && !termsCheckbox) {
-            console.log(Object.keys(formErrors))
-            console.log(termsCheckbox);
-            setCheckboxValidation(true);
-        } else if (Object.keys(formErrors).length === 0 && termsCheckbox) {
+        if (Object.keys(formErrors).length === 0) {
             setIsSubmitting(true);
-            console.log('false');
-            console.log(Object.keys(formErrors))
         }
     };
 
@@ -114,6 +114,10 @@ function RegistrationPage({ history }) {
             errors.instAddress = "Cannot be blank";
         }
 
+        if (!values.termsToggle) {
+            errors.termsToggle = "Please agree to the terms & conditions to continue";
+        }
+
         return errors;
     };
 
@@ -131,16 +135,14 @@ function RegistrationPage({ history }) {
     }, [formErrors, isSubmitting]);
 
     useEffect(() => {
-        console.log(formErrors)
-    }, [formErrors]);
+        if(handleSubmitCheck && formErrors.termsToggle  && Object.keys(formErrors).length === 1) {
+            setSnackbar(true);
+        }
+    }, [handleSubmitCheck, formErrors]);
 
     const handleClose = () => {
-        setCheckboxValidation(false);
+        setSnackbar(false);
     };
-
-    const setCheckboxToggle = () => {
-        setTermsCheckbox(true);
-    }
 
     return (
         <>
@@ -270,12 +272,12 @@ function RegistrationPage({ history }) {
                             </div>
 
                             <Box display="flex">
-                                <Checkbox sx={{
+                                <Checkbox name="termsToggle" sx={{
                                     pl: 0, pb: 0, color: '#EF6C00',
                                     '&.Mui-checked': {
                                         color: '#FB8C00',
                                     },
-                                }} onClick={setCheckboxToggle} />
+                                }} onClick={handleChange} />
                                 <Box color="black" sx={{ cursor: 'pointer', '&:hover': { color: '#EF6C00' } }} onClick={termsLinkClick}>
                                     <Typography sx={{ pt: 1 }} variant="subtitle2">I understand and agree to abide by the terms and conditions listed above.</Typography>
                                 </Box>
@@ -376,7 +378,7 @@ function RegistrationPage({ history }) {
                 </DialogActions>
             </Dialog>
 
-            <Snackbar anchorOrigin={{ vertical, horizontal }} key={vertical + horizontal} open={checkboxValidation} onClose={handleClose} autoHideDuration={10000}>
+            <Snackbar anchorOrigin={{ vertical, horizontal }} key={vertical + horizontal} open={snackbar} onClose={handleClose} autoHideDuration={10000}>
                 <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
                     Please agree to the terms and conditions to continue.
                 </Alert>
