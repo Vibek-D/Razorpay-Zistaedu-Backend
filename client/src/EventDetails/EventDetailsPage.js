@@ -7,9 +7,8 @@ import EventSelection from "./EventSelection";
 import { Typography } from "@material-ui/core";
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
-import { padding } from '@material-ui/system';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 function EventDetailsPage() {
     const history = useHistory();
@@ -61,10 +60,13 @@ function EventDetailsPage() {
                             </RadioGroup>
                         </FormControl>
                         <Box display="flex">
-                            <span style={{ fontWeight: 500, fontSize: '1.2rem', paddingRight: '5px', display: 'inline-block' }}>Note: </span><span style={{ paddingTop: '3px',  display: 'inline-block' }}>User who pay via credit card can register for only 1 event. If you would
-                                like to register for multiple events or if you are registering for one of our events
-                                for the first time, please drop a quick line to mitali.r@zistaeducation.com and
-                                request for a discount code</span>
+                            <span style={{ fontWeight: 500, fontSize: '1.2rem', paddingRight: '5px', display: 'inline-block' }}>Note: </span>
+                            <span style={{ paddingTop: '3px',  display: 'inline-block' }}>
+                                User who pay via credit card can register for only 1 event. But if you would
+                                like to register for multiple events or if you are registering for one of
+                                our events for the first time, please drop a quick line to the email ID at
+                                mitali.r@zistaeducation.com and request for a discount code.
+                            </span>
                         </Box>
 
                     </Box>

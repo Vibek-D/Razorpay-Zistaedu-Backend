@@ -21,21 +21,23 @@ import TableContainer from '@material-ui/core/TableContainer';
 import DialogContentText from '@material-ui/core/DialogContentText';
 
 
-function createData(name, disabledToggle, breakoutCheckbox, webinarCheckbox) {
-  return { name, disabledToggle, breakoutCheckbox, webinarCheckbox };
+
+
+function createData(name, mainItem, disabledToggle, breakoutCheckbox, webinarCheckbox) {
+  return { name, mainItem, disabledToggle, breakoutCheckbox, webinarCheckbox };
 }
 
 const rows = [
-  createData('GHEE 2021 logo (September 25, 2021)', true, false, false),
-  createData('GADEE 2021 logo (November 13, 2021', true, false, false),
-  createData('STEM 2022 logo Spring Edition (January 29, 2022)', true, false, false),
-  createData('GADEE 2022 logo (March 26, 2022)', true, false, false),
-  createData('GLAEE 2022 logo (April 23, 2022)', true, false, false),
-  createData('GBMEE 2022 logo (June 25, 2022)', true, false, false),
-  createData('GEEE 2022 logo (August 06, 2022)', true, false, false),
-  createData('GHEE 2022 logo (September 24, 2022)', true, false, false),
-  createData('GADEE 2022 logo Fall Edition (October 15, 2022)', true, false, false),
-  createData('STEM 2022 logo Fall Edition (November 13, 2022)', true, false, false),
+  createData('GHEE 2021 logo (September 25, 2021)', false, true, false, false),
+  createData('GADEE 2021 logo (November 13, 2021)', false, true, false, false),
+  createData('STEM 2022 logo Spring Edition (January 29, 2022)', false, true, false, false),
+  createData('GADEE 2022 logo (March 26, 2022)', false, true, false, false),
+  createData('GLAEE 2022 logo (April 23, 2022)', false, true, false, false),
+  createData('GBMEE 2022 logo (June 25, 2022)', false, true, false, false),
+  createData('GEEE 2022 logo (August 06, 2022)', false, true, false, false),
+  createData('GHEE 2022 logo (September 24, 2022)', false, true, false, false),
+  createData('GADEE 2022 logo Fall Edition (October 15, 2022)', false, true, false, false),
+  createData('STEM 2022 logo Fall Edition (November 13, 2022)', false, true, false, false),
 ];
 
 const headCells = [
@@ -59,11 +61,20 @@ function EnhancedTableHead(props) {
   );
 }
 
-export default function EventSelection({paymentMethod, registerUserData}) {
+export default function EventSelection({ paymentMethod, registerUserData }) {
   const [selected, setSelected] = React.useState([]);
-  const [breakoutPrice, setBreakoutPrice] = React.useState(0);
   const [webinarPrice, setWebinarPrice] = React.useState(0);
+  const [breakoutPrice, setBreakoutPrice] = React.useState(0);
+  const [creditError, setCreditError] = React.useState(false);
   const [mainEventPrice, setMainEventPrice] = React.useState(0);
+
+  let newSelected = [];
+
+  // if (paymentMethod === 'credit') {
+  //   rows.forEach((row, index) => {
+  //     row.mainItem = false;
+  //   })
+  // }
 
   React.useEffect(() => {
     console.log(`breakoutPrice`, breakoutPrice)
@@ -103,8 +114,10 @@ export default function EventSelection({paymentMethod, registerUserData}) {
     const selectedIndex = selected.indexOf(name);
     let result = rows.find(obj => {
       return obj.name === name;
-    })
+    });
+
     result.disabledToggle = !result.disabledToggle;
+
     if (result.disabledToggle) {
       if (result.webinarCheckbox) {
         setWebinarPrice(prev => prev - 350);
@@ -116,7 +129,6 @@ export default function EventSelection({paymentMethod, registerUserData}) {
       result.breakoutCheckbox = false;
 
     }
-    let newSelected = [];
 
     if (selectedIndex === -1) {
       newSelected = newSelected.concat(selected, name);
@@ -135,8 +147,9 @@ export default function EventSelection({paymentMethod, registerUserData}) {
     const newSelectedLength = newSelected.length;
     let check = mainEventData.find(obj => {
       return obj.id === newSelectedLength;
-    })
-    setMainEventPrice(check ? check.price : 0);
+    });
+
+    setMainEventPrice(check ? check.priceWire : 0);
   };
 
   const isSelected = (name) => {
@@ -184,6 +197,8 @@ export default function EventSelection({paymentMethod, registerUserData}) {
   const handleClickOpen = () => {
     if (mainEventPrice + webinarPrice + breakoutPrice === 0 || mainEventPrice + webinarPrice + breakoutPrice === '0') {
       setEmptyCartError(true);
+    } else if (paymentMethod === 'credit' && selected.length > 1) {
+      setCreditError(true);
     } else {
       setOpen(true);
     }
@@ -195,6 +210,10 @@ export default function EventSelection({paymentMethod, registerUserData}) {
 
   const handleCloseEmptyCart = () => {
     setEmptyCartError(false);
+  };
+
+  const handleCloseCreditError = () => {
+    setCreditError(false);
   };
 
   return (
@@ -223,10 +242,10 @@ export default function EventSelection({paymentMethod, registerUserData}) {
                   <TableCell align="center" sx={{ border: 'solid 1px orange' }}>
                     <Checkbox
                       style={{
-                        color: "orange",
+                        color: 'orange',
                       }}
-                      checked={isItemSelected}
                       onChange={(event) => handleClick(event, row.name)}
+                      checked={isItemSelected}
                       inputProps={{ 'aria-labelledby': labelId }}
                     />
                   </TableCell>
@@ -259,19 +278,20 @@ export default function EventSelection({paymentMethod, registerUserData}) {
         </Table>
       </TableContainer>
       <Box display="flex" justifyContent="center">
-        <Button 
-            sx={{ width: "300px", 
-            height: "45px", 
-            m: "40px", 
+        <Button
+          sx={{
+            width: "300px",
+            height: "45px",
+            m: "40px",
             backgroundColor: '#EF6C00',
             '&:hover': {
               backgroundColor: '#FB8C00',
               boxShadow: 'none',
             }
-         }} 
-          variant="contained" 
+          }}
+          variant="contained"
           onClick={(event) => handleClickOpen(event)}>
-            Submit Order
+          Submit Order
         </Button>
       </Box>
       <Dialog
@@ -319,11 +339,36 @@ export default function EventSelection({paymentMethod, registerUserData}) {
       >
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            You haven't selected any event. Select atleast one event to checkout.
+            <Typography variant="subtitle2" color="initial">
+              You haven't selected any event. Select atleast one event to checkout.
+            </Typography>
           </DialogContentText>
         </DialogContent>
         <DialogActions sx={{ pb: '20px', pr: '24px', pl: '24px' }}>
           <Button onClick={handleCloseEmptyCart} color="primary" variant="contained" autoFocus sx={{
+            backgroundColor: '#EF6C00',
+            '&:hover': {
+              backgroundColor: '#FB8C00',
+              boxShadow: 'none',
+            }
+          }}>
+            Close
+          </Button>
+        </DialogActions>
+      </Dialog>
+      <Dialog
+        open={creditError}
+        onClose={handleClose}
+      >
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            <Typography variant="subtitle2" color="initial">
+              Since you have selected the credit card payment method, you can now only select one event and less than $2000 due to the Razorpay transaction limits. But if you are willing to select more than one event, kindly choose the wire transfer payment method. Thanks
+            </Typography>
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions sx={{ pb: '20px', pr: '24px', pl: '24px' }}>
+          <Button onClick={handleCloseCreditError} color="primary" variant="contained" autoFocus sx={{
             backgroundColor: '#EF6C00',
             '&:hover': {
               backgroundColor: '#FB8C00',
