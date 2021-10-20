@@ -13,6 +13,7 @@ export const ProtectedRoute = ({
                 if (AuthRegister.isAuthenticated()) {
                     return <Component {...props} />;
                 } else {
+                    console.log('hi');
                     return (
                         <Redirect
                             to={{
