@@ -5,14 +5,30 @@ import DataComponent from "./DataComponent";
 import { useHistory } from "react-router-dom";
 import EventSelection from "./EventSelection";
 import { Typography } from "@material-ui/core";
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormControl from '@material-ui/core/FormControl';
+import { padding } from '@material-ui/system';
 
 function EventDetailsPage() {
     const history = useHistory();
+    const [paymentMethod, setPaymentMethod] = React.useState('wire');
+
     React.useEffect(() => {
         if (!AuthRegister.registerUserData) {
             history.push('/');
         }
     }, [history]);
+
+    React.useEffect(() => {
+        console.log(paymentMethod);
+    }, [paymentMethod]);
+
+    const handleRadioChange = (event) => {
+        setPaymentMethod(event.target.value);
+    };
+
     return (
         <>
             {AuthRegister.registerUserData && (
@@ -27,8 +43,34 @@ function EventDetailsPage() {
                         <DataComponent />
                     </Box>
                     <Box display='flex' justifyContent='center' flexDirection='column' ml={4} mr={4} mt={4}>
+                        <Typography variant='h5' mb={3} sx={{ fontFamily: 'Exo', fontWeight: '800' }}>CHOOSE PAYMENT METHODS</Typography>
+                        <FormControl component="fieldset">
+                            <RadioGroup row defaultValue="wire" name="radio-buttons-group" value={paymentMethod} onChange={handleRadioChange}>
+                                <FormControlLabel value="wire" control={<Radio sx={{
+                                    color: '#EF6C00',
+                                    '&.Mui-checked': {
+                                        color: '#FB8C00',
+                                    },
+                                }} />} label="Pay Via Wire Transfer" />
+                                <FormControlLabel value="credit" control={<Radio sx={{
+                                    color: '#EF6C00',
+                                    '&.Mui-checked': {
+                                        color: '#FB8C00',
+                                    },
+                                }} />} label="Pay Via Credit Card" />
+                            </RadioGroup>
+                        </FormControl>
+                        <Box display="flex">
+                            <span style={{ fontWeight: 500, fontSize: '1.2rem', paddingRight: '5px', display: 'inline-block' }}>Note: </span><span style={{ paddingTop: '3px',  display: 'inline-block' }}>User who pay via credit card can register for only 1 event. If you would
+                                like to register for multiple events or if you are registering for one of our events
+                                for the first time, please drop a quick line to mitali.r@zistaeducation.com and
+                                request for a discount code</span>
+                        </Box>
+
+                    </Box>
+                    <Box display='flex' justifyContent='center' flexDirection='column' ml={4} mr={4} mt={4}>
                         <Typography variant='h5' mb={3} sx={{ fontFamily: 'Exo', fontWeight: '800' }}>EVENTS SELECTION DETAILS</Typography>
-                        <EventSelection />
+                        <EventSelection registerUserData={AuthRegister.registerUserData} paymentMethod={paymentMethod} />
                     </Box>
                 </Box>
             )}

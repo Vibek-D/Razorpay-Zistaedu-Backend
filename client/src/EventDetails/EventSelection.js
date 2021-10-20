@@ -59,7 +59,7 @@ function EnhancedTableHead(props) {
   );
 }
 
-export default function EventSelection() {
+export default function EventSelection({paymentMethod, registerUserData}) {
   const [selected, setSelected] = React.useState([]);
   const [breakoutPrice, setBreakoutPrice] = React.useState(0);
   const [webinarPrice, setWebinarPrice] = React.useState(0);
@@ -277,7 +277,6 @@ export default function EventSelection() {
       <Dialog
         open={open}
         onClose={handleClose}
-        
       >
         <DialogContent sx={{ backgroundColor: '#FFD580' }}>
           <DialogContentText id="razorpayDialogDescription">

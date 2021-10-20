@@ -15,8 +15,8 @@ import ListItem from '@material-ui/core/ListItem';
 import React, { useState, useEffect } from 'react';
 import { CircularProgress } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
-import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 
 const Alert = React.forwardRef(function Alert(props, ref) {
@@ -50,7 +50,7 @@ function RegistrationPage({ history }) {
             });
         await axios.post(`/mail`, formValues)
             .then((response) => {
-            });
+        });
     };
 
     const handleChange = (e) => {
@@ -135,7 +135,7 @@ function RegistrationPage({ history }) {
     }, [formErrors, isSubmitting]);
 
     useEffect(() => {
-        if(handleSubmitCheck && formErrors.termsToggle  && Object.keys(formErrors).length === 1) {
+        if (handleSubmitCheck && formErrors.termsToggle && Object.keys(formErrors).length === 1) {
             setSnackbar(true);
         }
     }, [handleSubmitCheck, formErrors]);
