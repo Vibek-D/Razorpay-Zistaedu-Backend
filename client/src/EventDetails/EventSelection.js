@@ -13,6 +13,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Checkbox from '@material-ui/core/Checkbox';
 import ListItem from '@material-ui/core/ListItem';
 import TableBody from '@material-ui/core/TableBody';
+import TextField from '@material-ui/core/TextField';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import Typography from '@material-ui/core/Typography';
@@ -20,6 +21,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import TableContainer from '@material-ui/core/TableContainer';
 import DialogContentText from '@material-ui/core/DialogContentText';
+
 
 function createData(name, disabledToggle, breakoutCheckbox, webinarCheckbox) {
   return { name, disabledToggle, breakoutCheckbox, webinarCheckbox };
@@ -150,41 +152,6 @@ export default function EventSelection({ paymentMethod, registerUserData, data }
     return selected.indexOf(name) !== -1;
   }
 
-  // const razorpayPayment = (event) => {
-  //   let id = shortid.generate();
-  //   let orders = {
-  //     amount: ((mainEventPrice + webinarPrice + breakoutPrice) * 100).toString(),
-  //     currency: "USD",
-  //     receipt: id,
-  //   }
-
-  //   axios.post(`/order`, orders)
-  //     .then(response => {
-  //       console.log(response);
-  //       let options = {
-  //         "key": "rzp_test_AAZSUIplmuGJ7f",
-  //         "order_id": response.data.id,
-  //         "amount": response.data.amount,
-  //         "currency": response.data.currency,
-  //         "offer_id": response.data.offer_id,
-  //         "name": "Amit Ahuja",
-  //         "description": "Zista Education ",
-  //         "image": "https://media-exp1.licdn.com/dms/image/C510BAQEzvaYnuT6NuQ/company-logo_200_200/0/1529486515702?e=2159024400&v=beta&t=E7jays0m1qxFLUVfLXHOokyAMuHaKEqQ07uj66BLIow",
-  //         "callback_url": `/order_complete`,
-  //         "notes": {
-  //           "address": "ZistaEdu Corporate Office Mumbai"
-  //         },
-  //         "theme": {
-  //           "color": "#FF8500"
-  //         }
-  //       };
-
-  //       let rzp = new window.Razorpay(options);
-  //       rzp.open();
-  //     }
-  //     );
-  // }
-
   const wireDetail = () => {
     setWireDetails(true);
   }
@@ -303,8 +270,8 @@ export default function EventSelection({ paymentMethod, registerUserData, data }
       >
         <DialogContent sx={{ backgroundColor: 'whitesmoke' }}>
           <DialogContentText id="razorpayDialogDescription">
-          <Typography variant='h5' p={1} mb={3} mt={3} sx={{ backgroundColor: 'orange', borderRadius: '5px' }}>ORDER SUMMARY:</Typography>
-            <Paper elevation={1}>
+            <Typography variant='h5' p={1} mb={3} mt={3} sx={{ backgroundColor: '#EF6C00', borderRadius: '5px', color: 'whitesmoke' }}>ORDER SUMMARY:</Typography>
+            <Paper elevation={0}>
               <Box display='flex' justifyContent='center' flexDirection='column' p={2}>
                 <Typography variant="h6">Main Event Total Price: $ {mainEventPrice}</Typography>
                 <Typography variant="h6">Breakout Session Total Price: $ {breakoutPrice}</Typography>
@@ -391,6 +358,9 @@ export default function EventSelection({ paymentMethod, registerUserData, data }
       >
         <DialogContent sx={{ pb: 1 }}>
           <DialogContentText id="alert-dialog-description">
+            <Box>
+              <Typography sx={{ fontWeight: '600' }} variant="h6" color="initial">Bank Details</Typography>
+            </Box>
             <nav aria-label="secondary mailbox folders">
               <List>
                 <ListItem disablePadding>

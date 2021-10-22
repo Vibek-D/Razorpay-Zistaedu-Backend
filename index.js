@@ -6,19 +6,20 @@ const shortid = require('shortid');
 const sendMail = require('./mail');
 const mongoose = require('mongoose');
 const Razorpay = require('razorpay');
+const sgMail = require('@sendgrid/mail');
 
 mongoose.connect(process.env.MONGOOSE_KEY).then(() => {
     console.log('Mongodb Connected')
 }).catch((err) => console.log(err))
 
-const zistaEduUserSchema = { 
+const zistaEduUserSchema = {
     email: String,
     fName: String,
     lName: String,
     instName: String,
     instAddress: String,
     phNumber: String,
-    officePhone: String 
+    officePhone: String
 }
 
 const zistaEduUserModel = mongoose.model("ZistaEduUserModel", zistaEduUserSchema);
@@ -43,8 +44,6 @@ app.post('/api/order', async (req, res) => {
     }
     console.log(options);
     await razorpay.orders.create(options, (err, order) => {
-        console.log(err)
-        console.log(order)
         res.json(order);
     });
 });
@@ -65,14 +64,14 @@ app.post('/api/order_complete', async (req, res) => {
 });
 
 app.post('/api/submit', async (req, res) => {
-    let newUser = new zistaEduUserModel({ 
+    let newUser = new zistaEduUserModel({
         email: req.body.email,
         fName: req.body.fName,
         lName: req.body.lName,
         instName: req.body.instName,
         instAddress: req.body.instAddress,
         phNumber: req.body.phNumber,
-        officePhone: req.body.officePhone 
+        officePhone: req.body.officePhone
     })
     console.log(newUser)
     await newUser.save();
@@ -83,6 +82,20 @@ app.post('/api/mail', async (req, res) => {
     sendMail(req);
 });
 
+app.get('/api/download', async (req, res) => {
+    zistaEduUserModel.find().then((data) => {
+        res.status(200).json({
+            userData: data
+        });
+    })
+    .catch(error => {
+        console.log(error);
+        res.status(500).json({
+            error: error
+        });
+    })
+        
+});
 
 app.listen(port, () => {
     console.log(`App listening at http://localhost:${port}`);

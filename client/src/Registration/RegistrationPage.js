@@ -4,19 +4,21 @@ import axios from "axios";
 import logo from '../logo.png';
 import Box from '@material-ui/core/Box';
 import List from '@material-ui/core/List';
+import { IconContext } from "react-icons";
 import AuthRegister from "../AuthRegister";
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import MuiAlert from '@material-ui/core/Alert';
+import { MdSwitchAccount } from 'react-icons/md';
 import Checkbox from '@material-ui/core/Checkbox';
 import Snackbar from '@material-ui/core/Snackbar';
 import ListItem from '@material-ui/core/ListItem';
 import React, { useState, useEffect } from 'react';
-import { CircularProgress } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
+import { CircularProgress, Tooltip } from '@material-ui/core';
 import DialogContentText from '@material-ui/core/DialogContentText';
 
 const Alert = React.forwardRef(function Alert(props, ref) {
@@ -50,7 +52,7 @@ function RegistrationPage({ history }) {
             });
         await axios.post(`/mail`, formValues)
             .then((response) => {
-        });
+            });
     };
 
     const handleChange = (e) => {
@@ -144,18 +146,29 @@ function RegistrationPage({ history }) {
         setSnackbar(false);
     };
 
+    const switchAdminPanel = () => {
+        history.push("/admin");
+    }
+
     return (
-        <>
+        <Box sx={{ fontFamily: 'Exo', fontWeight: '700' }} xs={3} height="100vh" backgroundColor="whitesmoke" display="flex" justifyContent="start" alignItems="center" flex="1" flexDirection="column">
             <Box sx={{ fontFamily: 'Exo', fontWeight: '700' }} xs={3} height="100vh" backgroundColor="whitesmoke" display="flex" justifyContent="start" alignItems="center" flex="1" flexDirection="column">
                 {progress ? (
                     <Box display="flex" justifyContent="center" alignItems="center" position="absolute" zIndex="100" top="50vh">
                         <CircularProgress color="primary" />
                     </Box>
                 ) : ''}
-                <Box display="flex" mb={3} mt={3}>
+                <Box display="flex" mb={2} mt={2}>
                     <Box display='flex' justifyContent="center" backgroundColor="black" borderRadius="20px">
                         <img style={{ marginLeft: '15px' }} src={logo} alt="Logo" />
                     </Box>
+                    <IconContext.Provider value={{ color: "black", className: "global-class-name", size: "2.5rem" }}>
+                        <Tooltip title="Admin Panel" placement="bottom" arrow>
+                            <Box sx={{ cursor: 'pointer' }} position="absolute" right="70px" onClick={() => switchAdminPanel()}>
+                                <MdSwitchAccount />
+                            </Box>
+                        </Tooltip>
+                    </IconContext.Provider>
                 </Box>
                 <Box display="flex" justifyContent="center">
                     <Paper elevation={4} sx={{ p: '0 70px', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', backgroundColor: 'whitesmoke' }}>
@@ -383,7 +396,7 @@ function RegistrationPage({ history }) {
                     Please agree to the terms and conditions to continue.
                 </Alert>
             </Snackbar>
-        </>
+        </Box>
     );
 }
 

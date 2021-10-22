@@ -3,7 +3,6 @@ import React from 'react';
 import axios from "axios";
 import shortid from 'shortid';
 import Box from '@material-ui/core/Box';
-import List from '@material-ui/core/List';
 import Table from '@material-ui/core/Table';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
@@ -11,7 +10,6 @@ import Dialog from '@material-ui/core/Dialog';
 import Divider from '@material-ui/core/Divider';
 import TableRow from '@material-ui/core/TableRow';
 import Checkbox from '@material-ui/core/Checkbox';
-import ListItem from '@material-ui/core/ListItem';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
@@ -182,7 +180,7 @@ export default function EventSelectionCredit({ paymentMethod, registerUserData, 
         rzp.open();
       }
       );
-  }
+    }
 
   const [open, setOpen] = React.useState(false);
   const [emptyCartError, setEmptyCartError] = React.useState(false);
@@ -190,7 +188,7 @@ export default function EventSelectionCredit({ paymentMethod, registerUserData, 
   const handleClickOpen = () => {
     if (mainEventPrice + webinarPrice + breakoutPrice === 0 || mainEventPrice + webinarPrice + breakoutPrice === '0') {
       setEmptyCartError(true);
-    } else if (paymentMethod === 'credit' && selected.length > 1) {
+    } else if (paymentMethod === 'credit' && (selected.length > 1 || mainEventPrice + webinarPrice + breakoutPrice > 2000)) {
       setCreditError(true);
     } else {
       setOpen(true);

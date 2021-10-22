@@ -39,7 +39,7 @@ function EventDetailsPage() {
                             Welcome {AuthRegister.registerUserData.data.fName}  {AuthRegister.registerUserData.data.lName}
                         </Typography>
                     </Box>
-                    <Box display='flex' justifyContent='center' flexDirection='column' ml={4} mr={4}>
+                    <Box display='flex' justifyContent='center' flexDirection='column' ml={4} mr={4} mt={2}>
                         <Typography variant='h5' mb={3} sx={{ fontFamily: 'Exo', fontWeight: '800' }}>PARTICIPATION FEE DETAILS</Typography>
                         <DataComponent />
                     </Box>
