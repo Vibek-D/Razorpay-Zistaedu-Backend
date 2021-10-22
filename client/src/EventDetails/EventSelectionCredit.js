@@ -3,7 +3,6 @@ import React from 'react';
 import axios from "axios";
 import shortid from 'shortid';
 import Box from '@material-ui/core/Box';
-import List from '@material-ui/core/List';
 import Table from '@material-ui/core/Table';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
@@ -11,9 +10,7 @@ import Dialog from '@material-ui/core/Dialog';
 import Divider from '@material-ui/core/Divider';
 import TableRow from '@material-ui/core/TableRow';
 import Checkbox from '@material-ui/core/Checkbox';
-import ListItem from '@material-ui/core/ListItem';
 import TableBody from '@material-ui/core/TableBody';
-import TextField from '@material-ui/core/TextField';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import Typography from '@material-ui/core/Typography';
@@ -21,7 +18,6 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import TableContainer from '@material-ui/core/TableContainer';
 import DialogContentText from '@material-ui/core/DialogContentText';
-
 
 function createData(name, disabledToggle, breakoutCheckbox, webinarCheckbox) {
   return { name, disabledToggle, breakoutCheckbox, webinarCheckbox };
@@ -61,11 +57,10 @@ function EnhancedTableHead(props) {
   );
 }
 
-export default function EventSelection({ paymentMethod, registerUserData, data }) {
+export default function EventSelectionCredit({ paymentMethod, registerUserData, data }) {
   const [selected, setSelected] = React.useState([]);
   const [webinarPrice, setWebinarPrice] = React.useState(0);
   const [breakoutPrice, setBreakoutPrice] = React.useState(0);
-  const [wireDetails, setWireDetails] = React.useState(false);
   const [creditError, setCreditError] = React.useState(false);
   const [mainEventPrice, setMainEventPrice] = React.useState(0);
 
@@ -89,9 +84,9 @@ export default function EventSelection({ paymentMethod, registerUserData, data }
     result.breakoutCheckbox = !result.breakoutCheckbox;
 
     if (result.breakoutCheckbox) {
-      setBreakoutPrice(prev => prev + 500);
+      setBreakoutPrice(prev => prev + 518);
     } else {
-      setBreakoutPrice(prev => prev - 500);
+      setBreakoutPrice(prev => prev - 518);
     }
   }
 
@@ -101,9 +96,9 @@ export default function EventSelection({ paymentMethod, registerUserData, data }
     })
     result.webinarCheckbox = !result.webinarCheckbox;
     if (result.webinarCheckbox) {
-      setWebinarPrice(prev => prev + 350);
+      setWebinarPrice(prev => prev + 363);
     } else {
-      setWebinarPrice(prev => prev - 350);
+      setWebinarPrice(prev => prev - 363);
     }
   }
 
@@ -116,10 +111,10 @@ export default function EventSelection({ paymentMethod, registerUserData, data }
 
     if (result.disabledToggle) {
       if (result.webinarCheckbox) {
-        setWebinarPrice(prev => prev - 350);
+        setWebinarPrice(prev => prev - 363);
       }
       if (result.breakoutCheckbox) {
-        setBreakoutPrice(prev => prev - 500);
+        setBreakoutPrice(prev => prev - 518);
       }
       result.webinarCheckbox = false;
       result.breakoutCheckbox = false;
@@ -152,13 +147,40 @@ export default function EventSelection({ paymentMethod, registerUserData, data }
     return selected.indexOf(name) !== -1;
   }
 
-  const wireDetail = () => {
-    setWireDetails(true);
-  }
+  const razorpayPayment = (event) => {
+    let id = shortid.generate();
+    let orders = {
+      amount: ((mainEventPrice + webinarPrice + breakoutPrice) * 100).toString(),
+      currency: "USD",
+      receipt: id,
+    }
 
-  const handleCloseWireDetails = () => {
-    setWireDetails(false);
-  }
+    axios.post(`/order`, orders)
+      .then(response => {
+        console.log(response);
+        let options = {
+          "key": "rzp_test_AAZSUIplmuGJ7f",
+          "order_id": response.data.id,
+          "amount": response.data.amount,
+          "currency": response.data.currency,
+          "offer_id": response.data.offer_id,
+          "name": "Amit Ahuja",
+          "description": "Zista Education ",
+          "image": "https://media-exp1.licdn.com/dms/image/C510BAQEzvaYnuT6NuQ/company-logo_200_200/0/1529486515702?e=2159024400&v=beta&t=E7jays0m1qxFLUVfLXHOokyAMuHaKEqQ07uj66BLIow",
+          "callback_url": `/order_complete`,
+          "notes": {
+            "address": "ZistaEdu Corporate Office Mumbai"
+          },
+          "theme": {
+            "color": "#FF8500"
+          }
+        };
+
+        let rzp = new window.Razorpay(options);
+        rzp.open();
+      }
+      );
+    }
 
   const [open, setOpen] = React.useState(false);
   const [emptyCartError, setEmptyCartError] = React.useState(false);
@@ -166,7 +188,7 @@ export default function EventSelection({ paymentMethod, registerUserData, data }
   const handleClickOpen = () => {
     if (mainEventPrice + webinarPrice + breakoutPrice === 0 || mainEventPrice + webinarPrice + breakoutPrice === '0') {
       setEmptyCartError(true);
-    } else if (paymentMethod === 'credit' && selected.length > 1) {
+    } else if (paymentMethod === 'credit' && (selected.length > 1 || mainEventPrice + webinarPrice + breakoutPrice > 2000)) {
       setCreditError(true);
     } else {
       setOpen(true);
@@ -270,8 +292,8 @@ export default function EventSelection({ paymentMethod, registerUserData, data }
       >
         <DialogContent sx={{ backgroundColor: 'whitesmoke' }}>
           <DialogContentText id="razorpayDialogDescription">
-            <Typography variant='h5' p={1} mb={3} mt={3} sx={{ backgroundColor: '#EF6C00', borderRadius: '5px', color: 'whitesmoke' }}>ORDER SUMMARY:</Typography>
-            <Paper elevation={0}>
+            <Typography variant='h5' p={1} mb={3} mt={3} sx={{ backgroundColor: 'orange', borderRadius: '5px' }}>ORDER SUMMARY:</Typography>
+            <Paper elevation={1}>
               <Box display='flex' justifyContent='center' flexDirection='column' p={2}>
                 <Typography variant="h6">Main Event Total Price: $ {mainEventPrice}</Typography>
                 <Typography variant="h6">Breakout Session Total Price: $ {breakoutPrice}</Typography>
@@ -292,7 +314,7 @@ export default function EventSelection({ paymentMethod, registerUserData, data }
           }}>
             Cancel
           </Button>
-          <Button onClick={wireDetail} variant="contained" color="primary" autoFocus sx={{
+          <Button onClick={razorpayPayment} variant="contained" color="primary" autoFocus sx={{
             backgroundColor: '#EF6C00',
             '&:hover': {
               backgroundColor: '#FB8C00',
@@ -341,74 +363,6 @@ export default function EventSelection({ paymentMethod, registerUserData, data }
         </DialogContent>
         <DialogActions sx={{ pb: '20px', pr: '24px', pl: '24px' }}>
           <Button onClick={handleCloseCreditError} color="primary" variant="contained" autoFocus sx={{
-            backgroundColor: '#EF6C00',
-            '&:hover': {
-              backgroundColor: '#FB8C00',
-              boxShadow: 'none',
-            }
-          }}>
-            Close
-          </Button>
-        </DialogActions>
-      </Dialog>
-
-      <Dialog
-        open={wireDetails}
-        onClose={handleClose}
-      >
-        <DialogContent sx={{ pb: 1 }}>
-          <DialogContentText id="alert-dialog-description">
-            <Box>
-              <Typography sx={{ fontWeight: '600' }} variant="h6" color="initial">Bank Details</Typography>
-            </Box>
-            <nav aria-label="secondary mailbox folders">
-              <List>
-                <ListItem disablePadding>
-                  <Typography variant="subtitle2" color="initial">
-                    Bank Name: Federal Bank
-                  </Typography>
-                </ListItem>
-                <ListItem disablePadding>
-                  <Typography variant="subtitle2" color="initial">
-                    Company Name: Zista Education Services LLP
-                  </Typography>
-                </ListItem>
-                <ListItem disablePadding>
-                  <Typography variant="subtitle2" color="initial">
-                    Account Type: Current
-                  </Typography>
-                </ListItem>
-                <ListItem disablePadding>
-                  <Typography variant="subtitle2" color="initial">
-                    Account Number: 18050200003353
-                  </Typography>
-                </ListItem>
-                <ListItem disablePadding>
-                  <Typography variant="subtitle2" color="initial">
-                    Branch Name: Ghatkopar
-                  </Typography>
-                </ListItem>
-                <ListItem disablePadding>
-                  <Typography variant="subtitle2" color="initial">
-                    Branch Address: Gr. Floor, Trikal Co-Op. Housing Society Ltd., 90 Feet Road, Ghatkopar East, Mumbai 400075, Maharashtra, India.
-                  </Typography>
-                </ListItem>
-                <ListItem disablePadding>
-                  <Typography variant="subtitle2" color="initial">
-                    IFSC Code: FDRL0001805
-                  </Typography>
-                </ListItem>
-                <ListItem disablePadding>
-                  <Typography variant="subtitle2" color="initial">
-                    SWIFT CODE: FDRLINBBIBD
-                  </Typography>
-                </ListItem>
-              </List>
-            </nav>
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions sx={{ pb: '20px', pr: '24px', pl: '24px', pt: 0 }}>
-          <Button onClick={handleCloseWireDetails} color="primary" variant="contained" autoFocus sx={{
             backgroundColor: '#EF6C00',
             '&:hover': {
               backgroundColor: '#FB8C00',

@@ -11,8 +11,9 @@ export const ProtectedRoute = ({
             {...rest}
             render={props => {
                 if (AuthRegister.isAuthenticated()) {
-                    return <Component {...props} />;
+                    return <Component {...props} registerUserData={AuthRegister.registerUserData} />;
                 } else {
+                    console.log('hi');
                     return (
                         <Redirect
                             to={{
