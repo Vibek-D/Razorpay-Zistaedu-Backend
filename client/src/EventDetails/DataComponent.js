@@ -68,43 +68,38 @@ export const rows = [
     priceCreditCard: 12829,
     priceWire: 12375,
   },
-  {
-    id: 10,
-    name: '10 Events',
-    priceCreditCard: 14000,
-    priceWire: 13750,
-  },
 ];
 
 export default function BasicTable() {
 
   return (
-    <TableContainer component={Paper} elevation={1} sx={{ backgroundColor: 'whitesmoke' }}>
-      <Table size={'small'}>
-        <TableHead>
-          <TableRow>
-            <TableCell colSpan={3} sx={{ backgroundColor: 'orange' }}>
-              <Typography variant="h6">Virtual Expo</Typography>
-            </TableCell>
-            <TableCell align="center" sx={{ backgroundColor: 'orange' }}>
-              <Typography variant="h6">Breakout Session</Typography>
-            </TableCell>
-            <TableCell align="center" sx={{ backgroundColor: 'orange' }}>
-              <Typography variant="h6">Post-Event Lead Nurturing Webinar</Typography>
-            </TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          <TableRow key={'1stRow'}>
-            <TableCell component="th" scope="row" sx={{ border: 'solid 1px orange' }}>
-            </TableCell>
-            <TableCell component="th" scope="row" sx={{ border: 'solid 1px orange' }}>
-              <Typography variant="body1" color="initial">Pay Via Wire Transfer</Typography>
-            </TableCell>
-            <TableCell component="th" scope="row" sx={{ border: 'solid 1px orange' }}>
-              <Typography variant="body1" color="initial">Pay Via Credit Card</Typography>
-            </TableCell>
-            {true && (<TableCell rowSpan={11} align="center" sx={{ border: '1px solid orange'}}>
+    <>
+      <TableContainer component={Paper} elevation={1} sx={{ backgroundColor: 'whitesmoke' }}>
+        <Table size={'small'}>
+          <TableHead>
+            <TableRow>
+              <TableCell colSpan={3} sx={{ backgroundColor: 'orange' }}>
+                <Typography variant="h6">Virtual Expo</Typography>
+              </TableCell>
+              <TableCell align="center" sx={{ backgroundColor: 'orange' }}>
+                <Typography variant="h6">Breakout Session</Typography>
+              </TableCell>
+              <TableCell align="center" sx={{ backgroundColor: 'orange' }}>
+                <Typography variant="h6">Post-Event Lead Nurturing Webinar</Typography>
+              </TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            <TableRow key={'1stRow'}>
+              <TableCell component="th" scope="row" sx={{ border: 'solid 1px orange' }}>
+              </TableCell>
+              <TableCell component="th" scope="row" sx={{ border: 'solid 1px orange' }}>
+                <Typography variant="body1" color="initial">Pay Via Wire Transfer</Typography>
+              </TableCell>
+              <TableCell component="th" scope="row" sx={{ border: 'solid 1px orange' }}>
+                <Typography variant="body1" color="initial">Pay Via Credit Card</Typography>
+              </TableCell>
+              {true && (<TableCell rowSpan={11} align="center" sx={{ border: '1px solid orange' }}>
                 <Box>
                   <Typography variant="subtitle2" color="initial">$500 per expo (pay via wire transfer)</Typography>
                   <Typography variant="subtitle2" color="initial">$ 518 per expo   (   pay via credit   card   )</Typography>
@@ -112,26 +107,34 @@ export default function BasicTable() {
               </TableCell>)}
               {true && (<TableCell rowSpan={11} align="center" sx={{ borderBottom: '1px solid orange' }}>
                 <Box>
-                  <Typography variant="subtitle2" color="initial">$300 per expo(pay via wire transfer)</Typography>
+                  <Typography variant="subtitle2" color="initial">$300 per expo (pay via wire transfer)</Typography>
                   <Typography variant="subtitle2" color="initial">$ 363 per expo ( pay via credit card )</Typography>
                 </Box>
               </TableCell>)}
-          </TableRow>
-          {rows.map((row) => (
-            <TableRow key={row.name}>
-              <TableCell component="th" scope="row" sx={{ border: 'solid 1px orange' }}>
-                <Typography variant="subtitle2" color="initial">{row.name}</Typography>
-              </TableCell>
-              <TableCell component="th" scope="row" sx={{ border: 'solid 1px orange' }}>
-                <Typography variant="subtitle2" color="initial">$ {row.priceWire}</Typography>
-              </TableCell>
-              <TableCell component="th" scope="row" sx={{ border: 'solid 1px orange' }}>
-                <Typography variant="subtitle2" color="initial">$ {row.priceCreditCard}</Typography>
-              </TableCell>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+            {rows.map((row) => (
+              <TableRow key={row.name}>
+                <TableCell component="th" scope="row" sx={{ border: 'solid 1px orange' }}>
+                  <Typography variant="subtitle2" color="initial">{row.name}</Typography>
+                </TableCell>
+                <TableCell component="th" scope="row" sx={{ border: 'solid 1px orange' }}>
+                  <Typography variant="subtitle2" color="initial">$ {row.priceWire}</Typography>
+                </TableCell>
+                <TableCell component="th" scope="row" sx={{ border: 'solid 1px orange' }}>
+                  <Typography variant="subtitle2" color="initial">$ {row.priceCreditCard}</Typography>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+      <Box display="flex" mt={3}>
+        <span style={{ fontWeight: 500, fontSize: '1.2rem', paddingRight: '5px', display: 'inline-block' }}>Note: </span>
+        <span style={{ paddingTop: '3px', display: 'inline-block' }}>
+          If you are registering for one of our events for the first time you will automatically receive an additional discount of USD 100.
+        </span>
+      </Box>
+    </>
+
   );
 }

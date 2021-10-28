@@ -7,6 +7,7 @@ import List from '@material-ui/core/List';
 import Table from '@material-ui/core/Table';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
+import { useHistory } from "react-router-dom";
 import Dialog from '@material-ui/core/Dialog';
 import Divider from '@material-ui/core/Divider';
 import TableRow from '@material-ui/core/TableRow';
@@ -28,7 +29,6 @@ function createData(name, disabledToggle, breakoutCheckbox, webinarCheckbox) {
 }
 
 const rows = [
-  createData('GHEE 2021 logo (September 25, 2021)', true, false, false),
   createData('GADEE 2021 logo (November 13, 2021)', true, false, false),
   createData('STEM 2022 logo Spring Edition (January 29, 2022)', true, false, false),
   createData('GADEE 2022 logo (March 26, 2022)', true, false, false),
@@ -70,6 +70,7 @@ export default function EventSelection({ paymentMethod, registerUserData, data }
   const [mainEventPrice, setMainEventPrice] = React.useState(0);
 
   let newSelected = [];
+  const history = useHistory();
 
   React.useEffect(() => {
     console.log(`breakoutPrice`, breakoutPrice)
@@ -152,8 +153,18 @@ export default function EventSelection({ paymentMethod, registerUserData, data }
     return selected.indexOf(name) !== -1;
   }
 
-  const wireDetail = () => {
-    setWireDetails(true);
+  const wireDetail = async () => {
+    let orders = {
+      userData: registerUserData.data,
+      paymentType: 'wire',
+    }
+    const orderUpdate = await axios.post(`/order`, orders);
+    if (orderUpdate.data) {
+      history.push('/success');
+      const mailData = await axios.post(`/mail`, orderUpdate.data);
+    } else {
+      history.push('/error');
+    }
   }
 
   const handleCloseWireDetails = () => {
@@ -270,7 +281,7 @@ export default function EventSelection({ paymentMethod, registerUserData, data }
       >
         <DialogContent sx={{ backgroundColor: 'whitesmoke' }}>
           <DialogContentText id="razorpayDialogDescription">
-            <Typography variant='h5' p={1} mb={3} mt={3} sx={{ backgroundColor: '#EF6C00', borderRadius: '5px', color: 'whitesmoke' }}>ORDER SUMMARY:</Typography>
+            <Typography variant='h5' p={1} mb={3} mt={3} sx={{ backgroundColor: '#EF6C00', borderRadius: '5px', color: 'whitesmoke', textAlign: 'center' }}>ORDER SUMMARY</Typography>
             <Paper elevation={0}>
               <Box display='flex' justifyContent='center' flexDirection='column' p={2}>
                 <Typography variant="h6">Main Event Total Price: $ {mainEventPrice}</Typography>

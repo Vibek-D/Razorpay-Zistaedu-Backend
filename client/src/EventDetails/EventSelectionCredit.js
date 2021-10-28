@@ -5,6 +5,7 @@ import shortid from 'shortid';
 import Box from '@material-ui/core/Box';
 import Table from '@material-ui/core/Table';
 import Paper from '@material-ui/core/Paper';
+import { useHistory } from "react-router-dom";
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import Divider from '@material-ui/core/Divider';
@@ -24,7 +25,6 @@ function createData(name, disabledToggle, breakoutCheckbox, webinarCheckbox) {
 }
 
 const rows = [
-  createData('GHEE 2021 logo (September 25, 2021)', true, false, false),
   createData('GADEE 2021 logo (November 13, 2021)', true, false, false),
   createData('STEM 2022 logo Spring Edition (January 29, 2022)', true, false, false),
   createData('GADEE 2022 logo (March 26, 2022)', true, false, false),
@@ -65,6 +65,7 @@ export default function EventSelectionCredit({ paymentMethod, registerUserData, 
   const [mainEventPrice, setMainEventPrice] = React.useState(0);
 
   let newSelected = [];
+  const history = useHistory();
 
   React.useEffect(() => {
     console.log(`breakoutPrice`, breakoutPrice)
@@ -147,40 +148,52 @@ export default function EventSelectionCredit({ paymentMethod, registerUserData, 
     return selected.indexOf(name) !== -1;
   }
 
-  const razorpayPayment = (event) => {
-    let id = shortid.generate();
+  const razorpayPayment = async (event) => {
     let orders = {
-      amount: ((mainEventPrice + webinarPrice + breakoutPrice) * 100).toString(),
-      currency: "USD",
-      receipt: id,
+      userData: registerUserData.data,
+      paymentType: 'credit',
+    }
+    const orderUpdate = await axios.post(`/order`, orders);
+    if (orderUpdate.data) {
+      history.push('/success');
+      const mailData = await axios.post(`/mail`, orderUpdate.data);
+    } else {
+      history.push('/error');
     }
 
-    axios.post(`/order`, orders)
-      .then(response => {
-        console.log(response);
-        let options = {
-          "key": "rzp_test_AAZSUIplmuGJ7f",
-          "order_id": response.data.id,
-          "amount": response.data.amount,
-          "currency": response.data.currency,
-          "offer_id": response.data.offer_id,
-          "name": "Amit Ahuja",
-          "description": "Zista Education ",
-          "image": "https://media-exp1.licdn.com/dms/image/C510BAQEzvaYnuT6NuQ/company-logo_200_200/0/1529486515702?e=2159024400&v=beta&t=E7jays0m1qxFLUVfLXHOokyAMuHaKEqQ07uj66BLIow",
-          "callback_url": `/order_complete`,
-          "notes": {
-            "address": "ZistaEdu Corporate Office Mumbai"
-          },
-          "theme": {
-            "color": "#FF8500"
-          }
-        };
+    // let id = shortid.generate();
+    // let orders = {
+    //   amount: ((mainEventPrice + webinarPrice + breakoutPrice) * 100).toString(),
+    //   currency: "USD",
+    //   receipt: id,
+    // }
 
-        let rzp = new window.Razorpay(options);
-        rzp.open();
-      }
-      );
-    }
+    // axios.post(`/order`, orders)
+    //   .then(response => {
+    //     console.log(response);
+    //     let options = {
+    //       "key": "rzp_test_AAZSUIplmuGJ7f",
+    //       "order_id": response.data.id,
+    //       "amount": response.data.amount,
+    //       "currency": response.data.currency,
+    //       "offer_id": response.data.offer_id,
+    //       "name": "Amit Ahuja",
+    //       "description": "Zista Education ",
+    //       "image": "https://media-exp1.licdn.com/dms/image/C510BAQEzvaYnuT6NuQ/company-logo_200_200/0/1529486515702?e=2159024400&v=beta&t=E7jays0m1qxFLUVfLXHOokyAMuHaKEqQ07uj66BLIow",
+    //       "callback_url": `/order_complete`,
+    //       "notes": {
+    //         "address": "ZistaEdu Corporate Office Mumbai"
+    //       },
+    //       "theme": {
+    //         "color": "#FF8500"
+    //       }
+    //     };
+
+    //     let rzp = new window.Razorpay(options);
+    //     rzp.open();
+    //   }
+    //   );
+  }
 
   const [open, setOpen] = React.useState(false);
   const [emptyCartError, setEmptyCartError] = React.useState(false);
@@ -292,7 +305,7 @@ export default function EventSelectionCredit({ paymentMethod, registerUserData, 
       >
         <DialogContent sx={{ backgroundColor: 'whitesmoke' }}>
           <DialogContentText id="razorpayDialogDescription">
-            <Typography variant='h5' p={1} mb={3} mt={3} sx={{ backgroundColor: 'orange', borderRadius: '5px' }}>ORDER SUMMARY:</Typography>
+            <Typography variant='h5' p={1} mb={3} mt={3} sx={{ backgroundColor: '#EF6C00', borderRadius: '5px', color: 'whitesmoke', textAlign: 'center' }}>ORDER SUMMARY</Typography>
             <Paper elevation={1}>
               <Box display='flex' justifyContent='center' flexDirection='column' p={2}>
                 <Typography variant="h6">Main Event Total Price: $ {mainEventPrice}</Typography>

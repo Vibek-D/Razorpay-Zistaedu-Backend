@@ -3,7 +3,9 @@ import "./App.css";
 import React from "react";
 import Admin from "./Admin/Admin";
 import { Helmet } from "react-helmet";
+import ErrorPage from "./Confirmation/ErrorPage";
 import { ProtectedRoute } from "./ProtectedRoute";
+import SuccessPage from "./Confirmation/SuccessPage";
 import EventDetailsPage from "./EventDetails/EventDetailsPage";
 import RegistrationPage from "./Registration/RegistrationPage";
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
@@ -26,6 +28,8 @@ export function App() {
           <Route exact path="/" component={RegistrationPage} />
           <ProtectedRoute exact path="/event" component={EventDetailsPage} />
           <Route exact path="/admin" component={Admin} />
+          <Route exact path="/success" component={SuccessPage} />
+          <Route exact path="/error" component={ErrorPage} />
           <Route path="*" component={() => {
             return (
               <div style={{ display: 'flex', justifyContent: 'center', padding: '30px' }}>
