@@ -25,15 +25,15 @@ function createData(name, disabledToggle, breakoutCheckbox, webinarCheckbox) {
 }
 
 const rows = [
-  createData('GADEE 2021 logo (November 13, 2021)', true, false, false),
-  createData('STEM 2022 logo Spring Edition (January 29, 2022)', true, false, false),
-  createData('GADEE 2022 logo (March 26, 2022)', true, false, false),
-  createData('GLAEE 2022 logo (April 23, 2022)', true, false, false),
-  createData('GBMEE 2022 logo (June 25, 2022)', true, false, false),
-  createData('GEEE 2022 logo (August 06, 2022)', true, false, false),
-  createData('GHEE 2022 logo (September 24, 2022)', true, false, false),
-  createData('GADEE 2022 logo Fall Edition (October 15, 2022)', true, false, false),
-  createData('STEM 2022 logo Fall Edition (November 13, 2022)', true, false, false),
+  createData('Global Art & Design Education Expo 2021 - Fall Edition (November 13, 2021)', true, false, false),
+  createData('Global STEM Education Expo 2022 - Spring Edition (January 29, 2022)', true, false, false),
+  createData('Global Art & Design Education Expo 2022 - Spring Edition (March 26, 2022)', true, false, false),
+  createData('Global Art Liberal Arts Expo 2022 (April 23, 2022)', true, false, false),
+  createData('Global Business & Management Education Expo 2022 (June 25, 2022)', true, false, false),
+  createData('Global Engineering Education Expo 2022 (August 06, 2022)', true, false, false),
+  createData('Global Hospitality Education Expo 2022 (September 24, 2022)', true, false, false),
+  createData('Global Art & Design Education Expo 202 - Fall Edition (October 15, 2022)', true, false, false),
+  createData('Global STEM Education Expo 2022 - Fall Edition (November 13, 2022)', true, false, false),
 ];
 
 const headCells = [
@@ -201,8 +201,6 @@ export default function EventSelectionCredit({ paymentMethod, registerUserData, 
   const handleClickOpen = () => {
     if (mainEventPrice + webinarPrice + breakoutPrice === 0 || mainEventPrice + webinarPrice + breakoutPrice === '0') {
       setEmptyCartError(true);
-    } else if (paymentMethod === 'credit' && (selected.length > 1 || mainEventPrice + webinarPrice + breakoutPrice > 2000)) {
-      setCreditError(true);
     } else {
       setOpen(true);
     }
@@ -295,7 +293,7 @@ export default function EventSelectionCredit({ paymentMethod, registerUserData, 
           }}
           variant="contained"
           onClick={(event) => handleClickOpen(event)}>
-          Submit Order
+          Submit
         </Button>
       </Box>
 
