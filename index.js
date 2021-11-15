@@ -54,15 +54,6 @@ app.post('/api/order', async (req, res) => {
     } else {
         res.json(updatedData);
     }
-    // let options = {
-    //     currency: req.body.currency,
-    //     amount: req.body.amount,
-    //     receipt: req.body.receipt,
-    // }
-    // console.log(options);
-    // await razorpay.orders.create(options, (err, order) => {
-    //     res.json(order);
-    // });
 });
 
 app.get('/api/deleteAll', async (req, res) => {
@@ -70,22 +61,16 @@ app.get('/api/deleteAll', async (req, res) => {
 });
 
 app.get('/', (req, res) => {
-    res.send('Server Pinged ');
+    res.send('Server Pinged');
 });
 
 app.post('/api/order_complete', async (req, res) => {
+    console.log(req.body);
     if (req.body.type === 'success') {
         res.render('success');
     } else {
         res.render('error');
     }
-    // await razorpay.payments.fetch(req.body.razorpay_payment_id).then((response) => {
-    //     if (response.status === 'authorized' || response.status === 'captured') {
-    //         res.render('success');
-    //     } else {
-    //         res.render('error');
-    //     }
-    // });
 });
 
 app.post('/api/submit', async (req, res) => {
@@ -98,7 +83,7 @@ app.post('/api/submit', async (req, res) => {
         phNumber: req.body.phNumber,
         officePhone: req.body.officePhone
     })
-    console.log(newUser)
+    console.log(newUser);
     await newUser.save();
     res.json(newUser);
 });
@@ -108,18 +93,18 @@ app.post('/api/mail', async (req, res) => {
 });
 
 app.get('/api/download', async (req, res) => {
-    zistaEduUserModel.find().then((data) => {
+    await zistaEduUserModel.find().then((data) => {
+        console.log(data);
         res.status(200).json({
             userData: data
         });
     })
-        .catch(error => {
-            console.log(error);
-            res.status(500).json({
-                error: error
-            });
-        })
-
+    .catch(error => {
+        console.log(error);
+        res.status(500).json({
+            error: error
+        });
+    })
 });
 
 app.listen(port, () => {
