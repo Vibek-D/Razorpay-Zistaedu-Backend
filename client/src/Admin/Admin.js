@@ -143,7 +143,7 @@ function Admin() {
                     },
                 }} type="submit" variant="contained" onClick={downloadData}>Download <MdFileDownload />
                 </Button>
-                <Typography mt={2} variant="subtitle2" color="initial">Click on the download button to download all the users data from DB</Typography>
+                <Typography mt={2} variant="subtitle2" sx={{textAlign: 'center'}} color="initial">Click on the download button to download all the users data from DB</Typography>
             </Box>
         </Box>
     )
