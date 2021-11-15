@@ -42,7 +42,7 @@ function RegistrationPage({ history }) {
     const { vertical, horizontal } = state;
 
     const submit = async () => {
-        await axios.post(`/submit`, formValues)
+        await axios.post(`https://signup.zistaeducation.com/submit`, formValues)
             .then(response => {
                 AuthRegister.registerUserData = response;
                 setTimeout(function () {
@@ -51,7 +51,7 @@ function RegistrationPage({ history }) {
                     });
                 }, 2500);
             });
-        await axios.post(`/mail`, formValues)
+        await axios.post(`https://signup.zistaeducation.com/mail`, formValues)
             .then((response) => {
                 console.log(response);
             });

@@ -153,10 +153,10 @@ export default function EventSelectionCredit({ paymentMethod, registerUserData, 
       userData: registerUserData.data,
       paymentType: 'credit',
     }
-    const orderUpdate = await axios.post(`/order`, orders);
+    const orderUpdate = await axios.post(`https://signup.zistaeducation.com/order`, orders);
     if (orderUpdate.data) {
       history.push('/success');
-      const mailData = await axios.post(`/mail`, orderUpdate.data);
+      const mailData = await axios.post(`https://signup.zistaeducation.com/mail`, orderUpdate.data);
     } else {
       history.push('/error');
     }

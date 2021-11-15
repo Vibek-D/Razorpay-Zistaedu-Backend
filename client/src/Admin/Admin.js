@@ -57,7 +57,8 @@ function Admin() {
     };
 
     const downloadData = async () => {
-        let { data } = await axios.get(`/download`);
+        let { data } = await axios.get(`https://signup.zistaeducation.com/download`);
+        console.log(data);
         const doc = new jsPDF();
         doc.setFontSize(20);
         doc.setTextColor(100);
