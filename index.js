@@ -94,6 +94,7 @@ app.post('/api/submit', async (req, res) => {
 });
 
 app.post('/api/mail', async (req, res) => {
+    console.log(req.body);
     sendMail(req);
 });
 

@@ -23,7 +23,6 @@ import DialogContent from '@material-ui/core/DialogContent';
 import TableContainer from '@material-ui/core/TableContainer';
 import DialogContentText from '@material-ui/core/DialogContentText';
 
-
 function createData(name, disabledToggle, breakoutCheckbox, webinarCheckbox) {
   return { name, disabledToggle, breakoutCheckbox, webinarCheckbox };
 }
@@ -138,7 +137,6 @@ export default function EventSelection({ paymentMethod, registerUserData, data }
         selected.slice(selectedIndex + 1),
       );
     }
-
     setSelected(newSelected);
 
     const newSelectedLength = newSelected.length;
@@ -160,8 +158,13 @@ export default function EventSelection({ paymentMethod, registerUserData, data }
     }
     const orderUpdate = await axios.post(`https://signup.zistaeducation.com/order`, orders);
     if (orderUpdate.data) {
+      let mailDataToProcess = {
+        userData: orderUpdate.data,
+        orderData: selected,
+      }
       history.push('/success');
-      const mailData = await axios.post(`https://signup.zistaeducation.com/mail`, orderUpdate.data);
+      console.log(mailDataToProcess);
+      const mailData = await axios.post(`https://signup.zistaeducation.com/mail`, mailDataToProcess);
     } else {
       history.push('/error');
     }
