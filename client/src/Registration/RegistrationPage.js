@@ -59,6 +59,7 @@ function RegistrationPage({ history }) {
 
     const handleChange = (e) => {
         let { name, value } = e.target;
+        console.log(name, value)
         if (name === 'termsToggle') {
             value = true;
             setFormValues({ ...formValues, [name]: value });
@@ -71,6 +72,8 @@ function RegistrationPage({ history }) {
         e.preventDefault();
         setHandleSubmitCheck(true);
         setFormErrors(validate(formValues));
+        console.log(formErrors);
+        console.log(formValues);
         if (Object.keys(formErrors).length === 0) {
             setIsSubmitting(true);
         }
