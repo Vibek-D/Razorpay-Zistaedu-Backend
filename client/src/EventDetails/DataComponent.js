@@ -135,6 +135,5 @@ export default function BasicTable() {
         </span>
       </Box>
     </>
-
   );
 }

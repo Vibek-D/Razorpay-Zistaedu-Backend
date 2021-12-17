@@ -14,7 +14,6 @@ import TableRow from '@material-ui/core/TableRow';
 import Checkbox from '@material-ui/core/Checkbox';
 import ListItem from '@material-ui/core/ListItem';
 import TableBody from '@material-ui/core/TableBody';
-import TextField from '@material-ui/core/TextField';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import Typography from '@material-ui/core/Typography';
@@ -28,15 +27,19 @@ function createData(name, disabledToggle, breakoutCheckbox, webinarCheckbox) {
 }
 
 const rows = [
-  createData('Global Art & Design Education Expo 2021 - Fall Edition (November 13, 2021)', true, false, false),
-  createData('Global STEM Education Expo 2022 - Spring Edition (January 29, 2022)', true, false, false),
-  createData('Global Art & Design Education Expo 2022 - Spring Edition (March 26, 2022)', true, false, false),
-  createData('Global Art Liberal Arts Expo 2022 (April 23, 2022)', true, false, false),
-  createData('Global Business & Management Education Expo 2022 (June 25, 2022)', true, false, false),
-  createData('Global Engineering Education Expo 2022 (August 06, 2022)', true, false, false),
-  createData('Global Hospitality Education Expo 2022 (September 24, 2022)', true, false, false),
-  createData('Global Art & Design Education Expo 202 - Fall Edition (October 15, 2022)', true, false, false),
-  createData('Global STEM Education Expo 2022 - Fall Edition (November 13, 2022)', true, false, false),
+  createData('Global STEM Education Expo (Virtual) - 29th January 2022', true, false, false),
+  createData('Global Art & Design Education Expo (In-person) - 1st April 2022, Delhi', true, false, false),
+  createData('Global Art & Design Education Expo (In-person) - 2nd April 2022, Mumbai', true, false, false),
+  createData('Global Liberal Arts Education Expo (Virtual) - 23rd April 2022', true, false, false),
+  createData('Global Business Education Expo (In-person) - 25th June 2022, Mumbai', true, false, false),
+  createData('Global Business Education Expo (In-person) - 26th June 2022, Delhi', true, false, false),
+  createData('Global Engineering Education Expo (Virtual) - 6th August 2022', true, false, false),
+  createData('Global Hospitality Education Expo (In-person) - 24th September 2022, Mumbai', true, false, false),
+  createData('Global Hospitality Education Expo (In-person) - 25th September 2022, Delhi', true, false, false),
+  createData('Global Art & Design Education Expo (In-person) - 15th October 2022, Kolkata', true, false, false),
+  createData('Global Art & Design Education Expo (In-person) - 16th October 2022, Bangalore', true, false, false),
+  createData('Global STEM Education Expo (In-person) - 13th November 2022, Mumbai', true, false, false),
+  createData('Global STEM Education Expo (In-person) - 14th November 2022, Bangalore', true, false, false),
 ];
 
 const headCells = [
@@ -89,9 +92,9 @@ export default function EventSelection({ paymentMethod, registerUserData, data }
     result.breakoutCheckbox = !result.breakoutCheckbox;
 
     if (result.breakoutCheckbox) {
-      setBreakoutPrice(prev => prev + 500);
+      setBreakoutPrice(prev => prev + 1);
     } else {
-      setBreakoutPrice(prev => prev - 500);
+      setBreakoutPrice(prev => prev - 1);
     }
   }
 
@@ -101,9 +104,9 @@ export default function EventSelection({ paymentMethod, registerUserData, data }
     })
     result.webinarCheckbox = !result.webinarCheckbox;
     if (result.webinarCheckbox) {
-      setWebinarPrice(prev => prev + 350);
+      setWebinarPrice(prev => prev + 1);
     } else {
-      setWebinarPrice(prev => prev - 350);
+      setWebinarPrice(prev => prev - 1);
     }
   }
 
@@ -116,10 +119,10 @@ export default function EventSelection({ paymentMethod, registerUserData, data }
 
     if (result.disabledToggle) {
       if (result.webinarCheckbox) {
-        setWebinarPrice(prev => prev - 350);
+        setWebinarPrice(prev => prev - 1);
       }
       if (result.breakoutCheckbox) {
-        setBreakoutPrice(prev => prev - 500);
+        setBreakoutPrice(prev => prev - 1);
       }
       result.webinarCheckbox = false;
       result.breakoutCheckbox = false;
@@ -140,11 +143,12 @@ export default function EventSelection({ paymentMethod, registerUserData, data }
     setSelected(newSelected);
 
     const newSelectedLength = newSelected.length;
-    let check = data.find(obj => {
-      return obj.id === newSelectedLength;
-    });
-
-    setMainEventPrice(check ? check.price : 0);
+    setMainEventPrice(newSelectedLength);
+    // let check = data.find(obj => {
+    //   return obj.id === newSelectedLength;
+    // });
+    // console.log(check)
+    // setMainEventPrice(check ? check.price : 0);
   };
 
   const isSelected = (name) => {
@@ -163,8 +167,8 @@ export default function EventSelection({ paymentMethod, registerUserData, data }
         orderData: selected,
       }
       history.push('/success');
-      console.log(mailDataToProcess);
       const mailData = await axios.post(`https://signup.zistaeducation.com/mail`, mailDataToProcess);
+      console.log(mailData);
     } else {
       history.push('/error');
     }
@@ -287,11 +291,11 @@ export default function EventSelection({ paymentMethod, registerUserData, data }
             <Typography variant='h5' p={1} mb={3} mt={3} sx={{ backgroundColor: '#EF6C00', borderRadius: '5px', color: 'whitesmoke', textAlign: 'center' }}>ORDER SUMMARY</Typography>
             <Paper elevation={0}>
               <Box display='flex' justifyContent='center' flexDirection='column' p={2}>
-                <Typography variant="h6">Main Event Total Price: $ {mainEventPrice}</Typography>
-                <Typography variant="h6">Breakout Session Total Price: $ {breakoutPrice}</Typography>
-                <Typography variant="h6">Post Event Webinar Total Price: $ {webinarPrice}</Typography>
+                <Typography variant="h6">Main Event Total: {mainEventPrice}</Typography>
+                <Typography variant="h6">Breakout Session Total: {breakoutPrice}</Typography>
+                <Typography variant="h6">Post Event Webinar Total: {webinarPrice}</Typography>
                 <Divider sx={{ mt: 1, mb: 2 }} />
-                <Typography variant="h6">All Items Total Price: $ {mainEventPrice + webinarPrice + breakoutPrice}</Typography>
+                <Typography variant="h6">All Items Total: {mainEventPrice + webinarPrice + breakoutPrice}</Typography>
               </Box>
             </Paper>
           </DialogContentText>
