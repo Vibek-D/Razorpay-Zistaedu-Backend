@@ -3,6 +3,7 @@ import "../App.css";
 import axios from "axios";
 import logo from '../logo.png';
 import Box from '@material-ui/core/Box';
+import Link from '@material-ui/core/Link';
 import List from '@material-ui/core/List';
 import { IconContext } from "react-icons";
 import AuthRegister from "../AuthRegister";
@@ -41,7 +42,7 @@ function RegistrationPage({ history }) {
     const { vertical, horizontal } = state;
 
     const submit = async () => {
-        await axios.post(`/submit`, formValues)
+        await axios.post(`https://signup.zistaeducation.com/submit`, formValues)
             .then(response => {
                 AuthRegister.registerUserData = response;
                 setTimeout(function () {
@@ -50,13 +51,15 @@ function RegistrationPage({ history }) {
                     });
                 }, 2500);
             });
-        await axios.post(`/mail`, formValues)
+        await axios.post(`https://signup.zistaeducation.com/mail`, formValues)
             .then((response) => {
+                console.log(response);
             });
     };
 
     const handleChange = (e) => {
         let { name, value } = e.target;
+        console.log(name, value)
         if (name === 'termsToggle') {
             value = true;
             setFormValues({ ...formValues, [name]: value });
@@ -69,6 +72,8 @@ function RegistrationPage({ history }) {
         e.preventDefault();
         setHandleSubmitCheck(true);
         setFormErrors(validate(formValues));
+        console.log(formErrors);
+        console.log(formValues);
         if (Object.keys(formErrors).length === 0) {
             setIsSubmitting(true);
         }
@@ -292,7 +297,11 @@ function RegistrationPage({ history }) {
                                     },
                                 }} onClick={handleChange} />
                                 <Box color="black" sx={{ cursor: 'pointer', '&:hover': { color: '#EF6C00' } }} onClick={termsLinkClick}>
-                                    <Typography sx={{ pt: 1 }} variant="subtitle2">I understand and agree to abide by the terms and conditions listed above.</Typography>
+                                    <Typography sx={{ pt: 1.5 }} variant="subtitle2">I understand and agree to abide by the
+                                        <Link href="#" color="inherit" sx={{ ml: 1, fontWeight: '700' }}>
+                                            terms and conditions
+                                        </Link>
+                                    </Typography>
                                 </Box>
                             </Box>
 

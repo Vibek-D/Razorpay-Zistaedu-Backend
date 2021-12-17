@@ -57,14 +57,15 @@ function Admin() {
     };
 
     const downloadData = async () => {
-        let { data } = await axios.get(`/download`);
+        let { data } = await axios.get(`https://signup.zistaeducation.com/download`);
+        console.log(data);
         const doc = new jsPDF();
         doc.setFontSize(20);
         doc.setTextColor(100);
-        const columns = [['First Name', 'Last Name', 'Email', 'Institute Name', 'Institute Address', 'Phone Number', 'Office Ph.No.']];
+        const columns = [['First Name', 'Last Name', 'Email', 'Institute Name', 'Institute Address', 'Phone Number', 'Office Ph.No.', 'Payment Type']];
         let tableData = [];
         for (const user of data.userData) {
-            const codeArr = [`${user.fName}`, `${user.lName}`, `${user.email}`, `${user.instName}`, `${user.instAddress}`, `${user.phNumber}`, `${user.officePhone}`, `${user.fName}`];
+            const codeArr = [`${user.fName}`, `${user.lName}`, `${user.email}`, `${user.instName}`, `${user.instAddress}`, `${user.phNumber}`, `${user.officePhone}`, `${user.paymentType}`];
             tableData.push(codeArr);
         }
         let content = {
@@ -143,7 +144,7 @@ function Admin() {
                     },
                 }} type="submit" variant="contained" onClick={downloadData}>Download <MdFileDownload />
                 </Button>
-                <Typography mt={2} variant="subtitle2" color="initial">Click on the download button to download all the users data from DB</Typography>
+                <Typography mt={2} variant="subtitle2" sx={{textAlign: 'center'}} color="initial">Click on the download button to download all the users data from DB</Typography>
             </Box>
         </Box>
     )

@@ -6,7 +6,7 @@ const shortid = require('shortid');
 const sendMail = require('./mail');
 const mongoose = require('mongoose');
 const Razorpay = require('razorpay');
-const sgMail = require('@sendgrid/mail');
+const ObjectId = require('mongodb').ObjectId;
 
 mongoose.connect(process.env.MONGOOSE_KEY).then(() => {
     console.log('Mongodb Connected')
@@ -19,7 +19,8 @@ const zistaEduUserSchema = {
     instName: String,
     instAddress: String,
     phNumber: String,
-    officePhone: String
+    officePhone: String,
+    paymentType: String,
 }
 
 const zistaEduUserModel = mongoose.model("ZistaEduUserModel", zistaEduUserSchema);
@@ -33,34 +34,48 @@ const port = process.env.PORT || 3001;
 
 app.set('view engine', 'ejs');
 app.use(cors());
+app.use(function(request, response, next) {
+    response.header("Access-Control-Allow-Origin", "*");
+    response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+});
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 app.post('/api/order', async (req, res) => {
-    let options = {
-        currency: req.body.currency,
-        amount: req.body.amount,
-        receipt: req.body.receipt,
-    }
-    console.log(options);
-    await razorpay.orders.create(options, (err, order) => {
-        res.json(order);
+    const updatedData = await zistaEduUserModel.findOneAndUpdate(
+        {
+            _id:new ObjectId(req.body.userData._id),
+        }, {
+            $set: {
+                paymentType: req.body.paymentType,
+            }
+    }, {
+        upsert: true,
+        new: true,
     });
+    if (updatedData) {
+        res.json(updatedData);
+    } else {
+        res.json(updatedData);
+    }
+});
+
+app.get('/api/deleteAll', async (req, res) => {
+    await zistaEduUserModel.deleteMany({ "fName" : "" });
 });
 
 app.get('/', (req, res) => {
-    res.send('Server Pinged ');
+    res.send('Server Pinged');
 });
 
 app.post('/api/order_complete', async (req, res) => {
-    await razorpay.payments.fetch(req.body.razorpay_payment_id).then((response) => {
-        console.log(response);
-        if (response.status === 'authorized' || response.status === 'captured') {
-            res.render('success');
-        } else {
-            res.render('error');
-        }
-    });
+    console.log(req.body);
+    if (req.body.type === 'success') {
+        res.render('success');
+    } else {
+        res.render('error');
+    }
 });
 
 app.post('/api/submit', async (req, res) => {
@@ -73,17 +88,19 @@ app.post('/api/submit', async (req, res) => {
         phNumber: req.body.phNumber,
         officePhone: req.body.officePhone
     })
-    console.log(newUser)
+    console.log(newUser);
     await newUser.save();
     res.json(newUser);
 });
 
 app.post('/api/mail', async (req, res) => {
+    console.log(req.body);
     sendMail(req);
 });
 
 app.get('/api/download', async (req, res) => {
-    zistaEduUserModel.find().then((data) => {
+    await zistaEduUserModel.find().then((data) => {
+        console.log(data);
         res.status(200).json({
             userData: data
         });
@@ -94,7 +111,6 @@ app.get('/api/download', async (req, res) => {
             error: error
         });
     })
-        
 });
 
 app.listen(port, () => {

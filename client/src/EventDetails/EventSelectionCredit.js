@@ -5,6 +5,7 @@ import shortid from 'shortid';
 import Box from '@material-ui/core/Box';
 import Table from '@material-ui/core/Table';
 import Paper from '@material-ui/core/Paper';
+import { useHistory } from "react-router-dom";
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import Divider from '@material-ui/core/Divider';
@@ -24,16 +25,19 @@ function createData(name, disabledToggle, breakoutCheckbox, webinarCheckbox) {
 }
 
 const rows = [
-  createData('GHEE 2021 logo (September 25, 2021)', true, false, false),
-  createData('GADEE 2021 logo (November 13, 2021)', true, false, false),
-  createData('STEM 2022 logo Spring Edition (January 29, 2022)', true, false, false),
-  createData('GADEE 2022 logo (March 26, 2022)', true, false, false),
-  createData('GLAEE 2022 logo (April 23, 2022)', true, false, false),
-  createData('GBMEE 2022 logo (June 25, 2022)', true, false, false),
-  createData('GEEE 2022 logo (August 06, 2022)', true, false, false),
-  createData('GHEE 2022 logo (September 24, 2022)', true, false, false),
-  createData('GADEE 2022 logo Fall Edition (October 15, 2022)', true, false, false),
-  createData('STEM 2022 logo Fall Edition (November 13, 2022)', true, false, false),
+  createData('Global STEM Education Expo (Virtual) - 29th January 2022', true, false, false),
+  createData('Global Art & Design Education Expo (In-person) - 1st April 2022, Delhi', true, false, false),
+  createData('Global Art & Design Education Expo (In-person) - 2nd April 2022, Mumbai', true, false, false),
+  createData('Global Liberal Arts Education Expo (Virtual) - 23rd April 2022', true, false, false),
+  createData('Global Business Education Expo (In-person) - 25th June 2022, Mumbai', true, false, false),
+  createData('Global Business Education Expo (In-person) - 26th June 2022, Delhi', true, false, false),
+  createData('Global Engineering Education Expo (Virtual) - 6th August 2022', true, false, false),
+  createData('Global Hospitality Education Expo (In-person) - 24th September 2022, Mumbai', true, false, false),
+  createData('Global Hospitality Education Expo (In-person) - 25th September 2022, Delhi', true, false, false),
+  createData('Global Art & Design Education Expo (In-person) - 15th October 2022, Kolkata', true, false, false),
+  createData('Global Art & Design Education Expo (In-person) - 16th October 2022, Bangalore', true, false, false),
+  createData('Global STEM Education Expo (In-person) - 13th November 2022, Mumbai', true, false, false),
+  createData('Global STEM Education Expo (In-person) - 14th November 2022, Bangalore', true, false, false),
 ];
 
 const headCells = [
@@ -65,6 +69,7 @@ export default function EventSelectionCredit({ paymentMethod, registerUserData, 
   const [mainEventPrice, setMainEventPrice] = React.useState(0);
 
   let newSelected = [];
+  const history = useHistory();
 
   React.useEffect(() => {
     console.log(`breakoutPrice`, breakoutPrice)
@@ -84,9 +89,9 @@ export default function EventSelectionCredit({ paymentMethod, registerUserData, 
     result.breakoutCheckbox = !result.breakoutCheckbox;
 
     if (result.breakoutCheckbox) {
-      setBreakoutPrice(prev => prev + 518);
+      setBreakoutPrice(prev => prev + 1);
     } else {
-      setBreakoutPrice(prev => prev - 518);
+      setBreakoutPrice(prev => prev - 1);
     }
   }
 
@@ -96,9 +101,9 @@ export default function EventSelectionCredit({ paymentMethod, registerUserData, 
     })
     result.webinarCheckbox = !result.webinarCheckbox;
     if (result.webinarCheckbox) {
-      setWebinarPrice(prev => prev + 363);
+      setWebinarPrice(prev => prev + 1);
     } else {
-      setWebinarPrice(prev => prev - 363);
+      setWebinarPrice(prev => prev - 1);
     }
   }
 
@@ -111,10 +116,10 @@ export default function EventSelectionCredit({ paymentMethod, registerUserData, 
 
     if (result.disabledToggle) {
       if (result.webinarCheckbox) {
-        setWebinarPrice(prev => prev - 363);
+        setWebinarPrice(prev => prev - 1);
       }
       if (result.breakoutCheckbox) {
-        setBreakoutPrice(prev => prev - 518);
+        setBreakoutPrice(prev => prev - 1);
       }
       result.webinarCheckbox = false;
       result.breakoutCheckbox = false;
@@ -136,51 +141,67 @@ export default function EventSelectionCredit({ paymentMethod, registerUserData, 
     setSelected(newSelected);
 
     const newSelectedLength = newSelected.length;
-    let check = data.find(obj => {
-      return obj.id === newSelectedLength;
-    });
-
-    setMainEventPrice(check ? check.price : 0);
+    // let check = data.find(obj => {
+    //   return obj.id === newSelectedLength;
+    // });
+    setMainEventPrice(newSelectedLength);
   };
 
   const isSelected = (name) => {
     return selected.indexOf(name) !== -1;
   }
 
-  const razorpayPayment = (event) => {
-    let id = shortid.generate();
+  const razorpayPayment = async (event) => {
     let orders = {
-      amount: ((mainEventPrice + webinarPrice + breakoutPrice) * 100).toString(),
-      currency: "USD",
-      receipt: id,
+      userData: registerUserData.data,
+      paymentType: 'credit',
     }
-
-    axios.post(`/order`, orders)
-      .then(response => {
-        console.log(response);
-        let options = {
-          "key": "rzp_test_AAZSUIplmuGJ7f",
-          "order_id": response.data.id,
-          "amount": response.data.amount,
-          "currency": response.data.currency,
-          "offer_id": response.data.offer_id,
-          "name": "Amit Ahuja",
-          "description": "Zista Education ",
-          "image": "https://media-exp1.licdn.com/dms/image/C510BAQEzvaYnuT6NuQ/company-logo_200_200/0/1529486515702?e=2159024400&v=beta&t=E7jays0m1qxFLUVfLXHOokyAMuHaKEqQ07uj66BLIow",
-          "callback_url": `/order_complete`,
-          "notes": {
-            "address": "ZistaEdu Corporate Office Mumbai"
-          },
-          "theme": {
-            "color": "#FF8500"
-          }
-        };
-
-        let rzp = new window.Razorpay(options);
-        rzp.open();
+    const orderUpdate = await axios.post(`https://signup.zistaeducation.com/order`, orders);
+    if (orderUpdate.data) {
+       let mailDataToProcess = {
+        userData: orderUpdate.data,
+        orderData: selected,
       }
-      );
+      history.push('/success');
+      console.log(mailDataToProcess);
+      const mailData = await axios.post(`https://signup.zistaeducation.com/mail`, mailDataToProcess);
+    } else {
+      history.push('/error');
     }
+
+    // let id = shortid.generate();
+    // let orders = {
+    //   amount: ((mainEventPrice + webinarPrice + breakoutPrice) * 100).toString(),
+    //   currency: "USD",
+    //   receipt: id,
+    // }
+
+    // axios.post(`/order`, orders)
+    //   .then(response => {
+    //     console.log(response);
+    //     let options = {
+    //       "key": "rzp_test_AAZSUIplmuGJ7f",
+    //       "order_id": response.data.id,
+    //       "amount": response.data.amount,
+    //       "currency": response.data.currency,
+    //       "offer_id": response.data.offer_id,
+    //       "name": "Amit Ahuja",
+    //       "description": "Zista Education ",
+    //       "image": "https://media-exp1.licdn.com/dms/image/C510BAQEzvaYnuT6NuQ/company-logo_200_200/0/1529486515702?e=2159024400&v=beta&t=E7jays0m1qxFLUVfLXHOokyAMuHaKEqQ07uj66BLIow",
+    //       "callback_url": `/order_complete`,
+    //       "notes": {
+    //         "address": "ZistaEdu Corporate Office Mumbai"
+    //       },
+    //       "theme": {
+    //         "color": "#FF8500"
+    //       }
+    //     };
+
+    //     let rzp = new window.Razorpay(options);
+    //     rzp.open();
+    //   }
+    //   );
+  }
 
   const [open, setOpen] = React.useState(false);
   const [emptyCartError, setEmptyCartError] = React.useState(false);
@@ -188,8 +209,6 @@ export default function EventSelectionCredit({ paymentMethod, registerUserData, 
   const handleClickOpen = () => {
     if (mainEventPrice + webinarPrice + breakoutPrice === 0 || mainEventPrice + webinarPrice + breakoutPrice === '0') {
       setEmptyCartError(true);
-    } else if (paymentMethod === 'credit' && (selected.length > 1 || mainEventPrice + webinarPrice + breakoutPrice > 2000)) {
-      setCreditError(true);
     } else {
       setOpen(true);
     }
@@ -282,7 +301,7 @@ export default function EventSelectionCredit({ paymentMethod, registerUserData, 
           }}
           variant="contained"
           onClick={(event) => handleClickOpen(event)}>
-          Submit Order
+          Submit
         </Button>
       </Box>
 
@@ -292,14 +311,14 @@ export default function EventSelectionCredit({ paymentMethod, registerUserData, 
       >
         <DialogContent sx={{ backgroundColor: 'whitesmoke' }}>
           <DialogContentText id="razorpayDialogDescription">
-            <Typography variant='h5' p={1} mb={3} mt={3} sx={{ backgroundColor: 'orange', borderRadius: '5px' }}>ORDER SUMMARY:</Typography>
+            <Typography variant='h5' p={1} mb={3} mt={3} sx={{ backgroundColor: '#EF6C00', borderRadius: '5px', color: 'whitesmoke', textAlign: 'center' }}>ORDER SUMMARY</Typography>
             <Paper elevation={1}>
               <Box display='flex' justifyContent='center' flexDirection='column' p={2}>
-                <Typography variant="h6">Main Event Total Price: $ {mainEventPrice}</Typography>
-                <Typography variant="h6">Breakout Session Total Price: $ {breakoutPrice}</Typography>
-                <Typography variant="h6">Post Event Webinar Total Price: $ {webinarPrice}</Typography>
+                <Typography variant="h6">Main Event Total: {mainEventPrice}</Typography>
+                <Typography variant="h6">Breakout Session Total: {breakoutPrice}</Typography>
+                <Typography variant="h6">Post Event Webinar Total: {webinarPrice}</Typography>
                 <Divider sx={{ mt: 1, mb: 2 }} />
-                <Typography variant="h6">All Items Total Price: $ {mainEventPrice + webinarPrice + breakoutPrice}</Typography>
+                <Typography variant="h6">All Items Total: {mainEventPrice + webinarPrice + breakoutPrice}</Typography>
               </Box>
             </Paper>
           </DialogContentText>
