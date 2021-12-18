@@ -95,7 +95,10 @@ app.post('/api/submit', async (req, res) => {
 
 app.post('/api/mail', async (req, res) => {
     console.log(req.body);
-    sendMail(req);
+    await sendMail(req);
+    res.status(200).json({
+        status: 'ok',
+    });
 });
 
 app.get('/api/download', async (req, res) => {
