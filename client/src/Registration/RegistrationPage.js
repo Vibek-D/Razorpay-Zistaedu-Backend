@@ -337,7 +337,8 @@ function RegistrationPage({ history }) {
                                 </ListItem>
                                 <ListItem disablePadding>
                                     <Typography variant="subtitle2" color="initial">
-                                        <span style={{ marginRight: 10 }}>&#10003;</span>An educational institution may nominate 1 participant for in-person events and up to 2 participants for virtual events.
+                                        <span style={{ marginRight: 10 }}>&#10003;</span>An educational institution may nominate 1 participant for in-person events 
+                                        and up to 2 participants for virtual events.
                                     </Typography>
                                 </ListItem>
                                 <ListItem disablePadding>
