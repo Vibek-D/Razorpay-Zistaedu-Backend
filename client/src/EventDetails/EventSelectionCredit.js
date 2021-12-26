@@ -71,15 +71,15 @@ export default function EventSelectionCredit({ paymentMethod, registerUserData, 
   let newSelected = [];
   const history = useHistory();
 
-  React.useEffect(() => {
-    console.log(`breakoutPrice`, breakoutPrice)
-  }, [breakoutPrice])
-  React.useEffect(() => {
-    console.log(`webinarPrice`, webinarPrice)
-  }, [webinarPrice])
-  React.useEffect(() => {
-    console.log(`mainEventPrice`, mainEventPrice)
-  }, [mainEventPrice])
+  // React.useEffect(() => {
+  //   console.log(`breakoutPrice`, breakoutPrice)
+  // }, [breakoutPrice])
+  // React.useEffect(() => {
+  //   console.log(`webinarPrice`, webinarPrice)
+  // }, [webinarPrice])
+  // React.useEffect(() => {
+  //   console.log(`mainEventPrice`, mainEventPrice)
+  // }, [mainEventPrice])
 
   const handleBreakoutPrice = (event, name) => {
     let result = rows.find(obj => {
@@ -141,9 +141,6 @@ export default function EventSelectionCredit({ paymentMethod, registerUserData, 
     setSelected(newSelected);
 
     const newSelectedLength = newSelected.length;
-    // let check = data.find(obj => {
-    //   return obj.id === newSelectedLength;
-    // });
     setMainEventPrice(newSelectedLength);
   };
 
@@ -152,55 +149,30 @@ export default function EventSelectionCredit({ paymentMethod, registerUserData, 
   }
 
   const razorpayPayment = async (event) => {
+    let orderData = rows.filter((i) => selected.includes(i.name));
+    const eventData = orderData.map((i) => ({
+      mainEvent: i.name,
+      webinar: i.webinarCheckbox,
+      breakout: i.breakoutCheckbox,
+    }));
     let orders = {
-      userData: registerUserData.data,
       paymentType: 'credit',
+      orderData: eventData,
+      userData: registerUserData.data,
     }
     const orderUpdate = await axios.post(`https://signup.zistaeducation.com/order`, orders);
+    console.log(orderUpdate);
     if (orderUpdate.data) {
-       let mailDataToProcess = {
+      let mailDataToProcess = {
         userData: orderUpdate.data,
-        orderData: selected,
+        orderData: orderUpdate.data.eventData,
       }
       history.push('/success');
-      console.log(mailDataToProcess);
       const mailData = await axios.post(`https://signup.zistaeducation.com/mail`, mailDataToProcess);
+      console.log(mailData);
     } else {
       history.push('/error');
     }
-
-    // let id = shortid.generate();
-    // let orders = {
-    //   amount: ((mainEventPrice + webinarPrice + breakoutPrice) * 100).toString(),
-    //   currency: "USD",
-    //   receipt: id,
-    // }
-
-    // axios.post(`/order`, orders)
-    //   .then(response => {
-    //     console.log(response);
-    //     let options = {
-    //       "key": "rzp_test_AAZSUIplmuGJ7f",
-    //       "order_id": response.data.id,
-    //       "amount": response.data.amount,
-    //       "currency": response.data.currency,
-    //       "offer_id": response.data.offer_id,
-    //       "name": "Amit Ahuja",
-    //       "description": "Zista Education ",
-    //       "image": "https://media-exp1.licdn.com/dms/image/C510BAQEzvaYnuT6NuQ/company-logo_200_200/0/1529486515702?e=2159024400&v=beta&t=E7jays0m1qxFLUVfLXHOokyAMuHaKEqQ07uj66BLIow",
-    //       "callback_url": `/order_complete`,
-    //       "notes": {
-    //         "address": "ZistaEdu Corporate Office Mumbai"
-    //       },
-    //       "theme": {
-    //         "color": "#FF8500"
-    //       }
-    //     };
-
-    //     let rzp = new window.Razorpay(options);
-    //     rzp.open();
-    //   }
-    //   );
   }
 
   const [open, setOpen] = React.useState(false);
@@ -311,14 +283,26 @@ export default function EventSelectionCredit({ paymentMethod, registerUserData, 
       >
         <DialogContent sx={{ backgroundColor: 'whitesmoke' }}>
           <DialogContentText id="razorpayDialogDescription">
-            <Typography variant='h5' p={1} mb={3} mt={3} sx={{ backgroundColor: '#EF6C00', borderRadius: '5px', color: 'whitesmoke', textAlign: 'center' }}>ORDER SUMMARY</Typography>
-            <Paper elevation={1}>
+            <Typography variant='h6' p={1} mb={2} sx={{ backgroundColor: '#EF6C00', borderRadius: '5px', color: 'whitesmoke', textAlign: 'center' }}>ORDER SUMMARY</Typography>
+            <Paper elevation={0}>
               <Box display='flex' justifyContent='center' flexDirection='column' p={2}>
-                <Typography variant="h6">Main Event Total: {mainEventPrice}</Typography>
-                <Typography variant="h6">Breakout Session Total: {breakoutPrice}</Typography>
-                <Typography variant="h6">Post Event Webinar Total: {webinarPrice}</Typography>
-                <Divider sx={{ mt: 1, mb: 2 }} />
-                <Typography variant="h6">All Items Total: {mainEventPrice + webinarPrice + breakoutPrice}</Typography>
+                <Box display="flex" justifyContent="space-between">
+                  <Typography variant="body1" sx={{ mr: 3 }}>Main Event Total:</Typography>
+                  <Typography variant="body1" color="initial">{mainEventPrice}</Typography>
+                </Box>
+                <Box display="flex" justifyContent="space-between">
+                  <Typography variant="body1" sx={{ mr: 3 }}>Breakout Session Total:</Typography>
+                  <Typography variant="body1" color="initial">{breakoutPrice}</Typography>
+                </Box>
+                <Box display="flex" justifyContent="space-between">
+                  <Typography variant="body1" sx={{ mr: 3 }}>Post Event Webinar Total:</Typography>
+                  <Typography variant="body1" color="initial">{webinarPrice}</Typography>
+                </Box>
+                <Divider sx={{ mt: 1, mb: 1 }} />
+                <Box display="flex" justifyContent="space-between">
+                  <Typography variant="body1" sx={{ mr: 3 }}>All Items Total:</Typography>
+                  <Typography variant="body1" color="initial">{mainEventPrice + webinarPrice + breakoutPrice}</Typography>
+                </Box>
               </Box>
             </Paper>
           </DialogContentText>

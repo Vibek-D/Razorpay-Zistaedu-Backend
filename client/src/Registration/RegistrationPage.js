@@ -28,6 +28,8 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 
 function RegistrationPage({ history }) {
     const intialValues = { email: "", fName: "", lName: "", instName: "", instAddress: "", phNumber: "", officePhone: "", termsToggle: false };
+    const vertical = 'bottom';
+    const horizontal = 'center';
     const [formErrors, setFormErrors] = useState({});
     const [progress, setProgress] = useState(false);
     const [snackbar, setSnackbar] = useState(false);
@@ -35,11 +37,6 @@ function RegistrationPage({ history }) {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [formValues, setFormValues] = useState(intialValues);
     const [handleSubmitCheck, setHandleSubmitCheck] = useState(false);
-    const [state, setState] = React.useState({
-        vertical: 'bottom',
-        horizontal: 'center',
-    });
-    const { vertical, horizontal } = state;
 
     const submit = async () => {
         await axios.post(`https://signup.zistaeducation.com/submit`, formValues)
@@ -60,7 +57,6 @@ function RegistrationPage({ history }) {
 
     const handleChange = (e) => {
         let { name, value } = e.target;
-        console.log(name, value)
         if (name === 'termsToggle') {
             value = true;
             setFormValues({ ...formValues, [name]: value });
@@ -73,8 +69,6 @@ function RegistrationPage({ history }) {
         e.preventDefault();
         setHandleSubmitCheck(true);
         setFormErrors(validate(formValues));
-        console.log(formErrors);
-        console.log(formValues);
         if (Object.keys(formErrors).length === 0) {
             setIsSubmitting(true);
         }
@@ -337,7 +331,7 @@ function RegistrationPage({ history }) {
                                 </ListItem>
                                 <ListItem disablePadding>
                                     <Typography variant="subtitle2" color="initial">
-                                        <span style={{ marginRight: 10 }}>&#10003;</span>An educational institution may nominate 1 participant for in-person events 
+                                        <span style={{ marginRight: 10 }}>&#10003;</span>An educational institution may nominate 1 participant for in-person events
                                         and up to 2 participants for virtual events.
                                     </Typography>
                                 </ListItem>
