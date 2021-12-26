@@ -22,28 +22,28 @@ export const ComponentToPrint = React.forwardRef((props, ref) => {
 						return (
 							<Paper elevation={0} component={Box} sx={{ backgroundColor: 'whitesmoke', p: '20px', border: '1px solid black', mb: 1 }}>
 								<Box>
-									<Typography variant="subtitle1" color="initial">Serial No: {index + 1}</Typography>
+									<Typography variant="subtitle1" color="initial" sx={{ fontFamily: 'Exo', fontWeight: '700' }}>Serial No: {index + 1}</Typography>
 								</Box>
 								<Box>
-									<Typography variant="subtitle1" color="initial">Email: {i.email}</Typography>
+									<Typography variant="subtitle1" color="initial" sx={{ fontFamily: 'Exo', fontWeight: '700' }}>Email: {i.email}</Typography>
 								</Box>
 								<Box>
-									<Typography variant="subtitle1" color="initial">First Name: {i.fName}</Typography>
+									<Typography variant="subtitle1" color="initial" sx={{ fontFamily: 'Exo', fontWeight: '700' }}>First Name: {i.fName}</Typography>
 								</Box>
 								<Box>
-									<Typography variant="subtitle1" color="initial">Last Name: {i.lName}</Typography>
+									<Typography variant="subtitle1" color="initial" sx={{ fontFamily: 'Exo', fontWeight: '700' }}>Last Name: {i.lName}</Typography>
 								</Box>
 								<Box>
-									<Typography variant="subtitle1" color="initial">Inst Name: {i.instName}</Typography>
+									<Typography variant="subtitle1" color="initial" sx={{ fontFamily: 'Exo', fontWeight: '700' }}>Inst Name: {i.instName}</Typography>
 								</Box>
 								<Box>
-									<Typography variant="subtitle1" color="initial">Inst Address: {i.instAddress}</Typography>
+									<Typography variant="subtitle1" color="initial" sx={{ fontFamily: 'Exo', fontWeight: '700' }}>Inst Address: {i.instAddress}</Typography>
 								</Box>
 								<Box>
-									<Typography variant="subtitle1" color="initial">Phone No: {i.phNumber}</Typography>
+									<Typography variant="subtitle1" color="initial" sx={{ fontFamily: 'Exo', fontWeight: '700' }}>Phone No: {i.phNumber}</Typography>
 								</Box>
 								<Box>
-									<Typography variant="subtitle1" color="initial">Office No: {i.officePhone}</Typography>
+									<Typography variant="subtitle1" color="initial" sx={{ fontFamily: 'Exo', fontWeight: '700' }}>Office No: {i.officePhone}</Typography>
 								</Box>
 								{i.eventData.length > 0 && (
 									<Box display="flex">
