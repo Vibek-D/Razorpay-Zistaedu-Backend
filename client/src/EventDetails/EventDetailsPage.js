@@ -2,7 +2,6 @@ import React from 'react';
 import Box from '@material-ui/core/Box';
 import AuthRegister from "../AuthRegister";
 import Radio from '@material-ui/core/Radio';
-import DataComponent from "./DataComponent";
 import { useHistory } from "react-router-dom";
 import EventSelection from "./EventSelection";
 import { Typography } from "@material-ui/core";
@@ -21,10 +20,6 @@ function EventDetailsPage() {
             history.push('/');
         }
     }, [history]);
-
-    React.useEffect(() => {
-        console.log(paymentMethod);
-    }, [paymentMethod]);
 
     const handleRadioChange = (event) => {
         setPaymentMethod(event.target.value);
