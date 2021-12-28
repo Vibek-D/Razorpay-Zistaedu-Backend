@@ -43,7 +43,7 @@ function EventDetailsPage() {
                             <div>Post Event Lead Nurturing Webinar: USD 350</div>
 
                             <Typography variant="body1" fontSize="1.2rem" sx={{ fontFamily: 'Exo', fontWeight: '900', mt: 2 }} color="initial">In-Person Events</Typography>
-                            <div>Main Expo: USD 1,700</div>
+                            <div>Main Expo: USD 1,500</div>
                             <div>Breakout Session: USD 500</div>
                             <div>Post Event Lead Nurturing Webinar: USD 350</div>
                         </Box>
