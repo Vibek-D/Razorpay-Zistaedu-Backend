@@ -26,8 +26,8 @@ function createData(name, disabledToggle, breakoutCheckbox, webinarCheckbox) {
 
 const rows = [
   createData('Global STEM Education Expo (Virtual) - 29th January 2022', true, false, false),
-  createData('Global Art & Design Education Expo (In-person) - 1st April 2022, Delhi', true, false, false),
-  createData('Global Art & Design Education Expo (In-person) - 2nd April 2022, Mumbai', true, false, false),
+  createData('Global Art & Design Education Expo (In-person) - 2nd April 2022, Delhi', true, false, false),
+  createData('Global Art & Design Education Expo (In-person) - 3rd April 2022, Mumbai', true, false, false),
   createData('Global Liberal Arts Education Expo (Virtual) - 23rd April 2022', true, false, false),
   createData('Global Business Education Expo (In-person) - 25th June 2022, Mumbai', true, false, false),
   createData('Global Business Education Expo (In-person) - 26th June 2022, Delhi', true, false, false),
@@ -36,8 +36,8 @@ const rows = [
   createData('Global Hospitality Education Expo (In-person) - 25th September 2022, Delhi', true, false, false),
   createData('Global Art & Design Education Expo (In-person) - 15th October 2022, Kolkata', true, false, false),
   createData('Global Art & Design Education Expo (In-person) - 16th October 2022, Bangalore', true, false, false),
-  createData('Global STEM Education Expo (In-person) - 13th November 2022, Mumbai', true, false, false),
-  createData('Global STEM Education Expo (In-person) - 14th November 2022, Bangalore', true, false, false),
+  createData('Global STEM Education Expo (In-person) - 12th November 2022, Mumbai', true, false, false),
+  createData('Global STEM Education Expo (In-person) - 13th November 2022, Bangalore', true, false, false),
 ];
 
 const headCells = [

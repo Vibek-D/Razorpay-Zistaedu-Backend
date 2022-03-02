@@ -24,7 +24,7 @@ const sendMail = async (req) => {
                 <li>Phone Number: ${req.body.userData.phNumber}</li>
                 <li>Office Phone Number: ${req.body.userData.officePhone}</li>
             </ul>
-            <h3>Selected Events</h3>
+            ${req.body.orderData.length > 0 ? '<h3>Selected Events</h3>' : ''}
         `;
     for (const i of req.body.orderData) {
       const eventsTags = `<div style="display: 'flex', justifyContent: 'space-between'"}>
@@ -62,11 +62,10 @@ const sendMail = async (req) => {
                 <li>Phone Number: ${req.body.phNumber}</li>
                 <li>Office Phone Number: ${req.body.officePhone}</li>
             </ul>
-            <h3>Selected Events</h3>
         `;
     const mailOptions = {
       from: req.body.email,
-      to: process.env.EMAIL,
+      to: 'info@zistaeducation.com',
       subject: 'Zista Events Registration',
       html: output,
     };
