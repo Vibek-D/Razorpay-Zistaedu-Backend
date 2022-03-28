@@ -28,18 +28,21 @@ function createData(name, disabledToggle, breakoutCheckbox, webinarCheckbox) {
 }
 
 const rows = [
-  createData('Global STEM Education Expo (Virtual) - 29th January 2022', true, false, false),
-  createData('Global Art & Design Education Expo (In-person) - 2nd April 2022, Delhi', true, false, false),
-  createData('Global Art & Design Education Expo (In-person) - 3rd April 2022, Mumbai', true, false, false),
-  createData('Global Liberal Arts Education Expo (Virtual) - 23rd April 2022', true, false, false),
-  createData('Global Business Education Expo (In-person) - 25th June 2022, Mumbai', true, false, false),
-  createData('Global Business Education Expo (In-person) - 26th June 2022, Delhi', true, false, false),
-  createData('Global Engineering Education Expo (Virtual) - 6th August 2022', true, false, false),
+  createData('Global Liberal Arts Education Expo (Virtual) - 23rd April 2022, Pan India', true, false, false),
+  createData('Global Business & Management Education Expo (In-person) - 24th June 2022, Bangalore', true, false, false),
+  createData('Global Business & Management Education Expo (In-person) - 25th June 2022, Mumbai', true, false, false),
+  createData('Global Business & Management Education Expo (In-person) - 26th June 2022, Delhi', true, false, false),
+  createData('Global Engineering Education Expo (Virtual) - 6th August 2022, Pan India', true, false, false),
+  createData('Global Hospitality Education Expo (In-person) - 22nd September 2022, Bangalore', true, false, false),
+  createData('Global Hospitality Education Expo (In-person) - 23rd September 2022, Chennai', true, false, false),
   createData('Global Hospitality Education Expo (In-person) - 24th September 2022, Mumbai', true, false, false),
   createData('Global Hospitality Education Expo (In-person) - 25th September 2022, Delhi', true, false, false),
-  createData('Global Art & Design Education Expo (In-person) - 15th October 2022, Kolkata', true, false, false),
-  createData('Global Art & Design Education Expo (In-person) - 16th October 2022, Bangalore', true, false, false),
-  createData('Global STEM Education Expo (In-person) - 12th November 2022, Mumbai', true, false, false),
+  createData('Global Art & Design Education Expo (In-person) - 13th October 2022, Mumbai', true, false, false),
+  createData('Global Art & Design Education Expo (In-person) - 14th October 2022, Chennai', true, false, false),
+  createData('Global Art & Design Education Expo (In-person) - 15th October 2022, Bangalore', true, false, false),
+  createData('Global Art & Design Education Expo (In-person) - 16th October 2022, Delhi', true, false, false),
+  createData('Global STEM Education Expo (In-person) - 11th November 2022, Mumbai', true, false, false),
+  createData('Global STEM Education Expo (In-person) - 12th November 2022, Delhi', true, false, false),
   createData('Global STEM Education Expo (In-person) - 13th November 2022, Bangalore', true, false, false),
 ];
 
