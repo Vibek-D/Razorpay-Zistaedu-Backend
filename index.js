@@ -6,6 +6,7 @@ const shortid = require('shortid');
 const sendMail = require('./mail');
 const mongoose = require('mongoose');
 const Razorpay = require('razorpay');
+const moment = require('moment');
 const ObjectId = require('mongodb').ObjectId;
 
 mongoose.connect(process.env.MONGOOSE_KEY).then(() => {
@@ -22,6 +23,7 @@ const zistaEduUserSchema = {
   eventData: [{ mainEvent: String, webinar: Boolean, breakout: Boolean }],
   officePhone: String,
   paymentType: String,
+  registrationDate: String,
 }
 
 const zistaEduUserModel = mongoose.model("ZistaEduUserModel", zistaEduUserSchema);
@@ -88,6 +90,7 @@ app.post('/api/submit', async (req, res) => {
     instAddress: req.body.instAddress,
     phNumber: req.body.phNumber,
     officePhone: req.body.officePhone,
+    registrationDate: moment().format('l'),
   })
   console.log(newUser);
   await newUser.save();
