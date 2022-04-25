@@ -22,6 +22,8 @@ import DialogContent from '@material-ui/core/DialogContent';
 import TableContainer from '@material-ui/core/TableContainer';
 import DialogContentText from '@material-ui/core/DialogContentText';
 
+// localhost -> http://localhost:4000/api
+// server -> https://signup.zistaeducation.com
 
 function createData(name, disabledToggle, breakoutCheckbox, webinarCheckbox) {
   return { name, disabledToggle, breakoutCheckbox, webinarCheckbox };
@@ -174,7 +176,7 @@ export default function EventSelection({ paymentMethod, registerUserData, data }
         orderData: orderUpdate.data.eventData,
       }
       history.push('/success');
-      const mailData = await axios.post(`http://localhost:4000/api/mail`, mailDataToProcess);
+      const mailData = await axios.post(`https://signup.zistaeducation.com/mail`, mailDataToProcess);
       console.log(mailData);
     } else {
       history.push('/error');
