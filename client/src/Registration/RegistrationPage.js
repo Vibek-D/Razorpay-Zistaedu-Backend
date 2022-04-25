@@ -49,7 +49,7 @@ function RegistrationPage({ history }) {
         }, 2500);
       });
     console.log(formValues);
-    await axios.post(`http://localhost:4000/api/mail`, formValues)
+    await axios.post(`https://signup.zistaeducation.com/mail`, formValues)
       .then((response) => {
         console.log(response);
       });
