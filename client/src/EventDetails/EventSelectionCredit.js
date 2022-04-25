@@ -20,6 +20,9 @@ import DialogContent from '@material-ui/core/DialogContent';
 import TableContainer from '@material-ui/core/TableContainer';
 import DialogContentText from '@material-ui/core/DialogContentText';
 
+// localhost -> http://localhost:4000/api
+// server -> https://signup.zistaeducation.com
+
 function createData(name, disabledToggle, breakoutCheckbox, webinarCheckbox) {
   return { name, disabledToggle, breakoutCheckbox, webinarCheckbox };
 }
