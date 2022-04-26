@@ -28,11 +28,12 @@ function createData(name, disabledToggle, breakoutCheckbox, webinarCheckbox) {
 }
 
 const rows = [
-  createData('Global Liberal Arts Education Expo (Virtual) - 23rd April 2022, Pan India', true, false, false),
   createData('Global Business & Management Education Expo (In-person) - 24th June 2022, Bangalore', true, false, false),
   createData('Global Business & Management Education Expo (In-person) - 25th June 2022, Mumbai', true, false, false),
   createData('Global Business & Management Education Expo (In-person) - 26th June 2022, Delhi', true, false, false),
   createData('Global Engineering Education Expo (Virtual) - 6th August 2022, Pan India', true, false, false),
+  createData('Global Engineering Education Expo (In-person) - 20th August 2022, Hyderabad', true, false, false),
+  createData('Global Engineering Education Expo (In-person) - 21th August 2022, Chennai', true, false, false),
   createData('Global Hospitality Education Expo (In-person) - 22nd September 2022, Bangalore', true, false, false),
   createData('Global Hospitality Education Expo (In-person) - 23rd September 2022, Chennai', true, false, false),
   createData('Global Hospitality Education Expo (In-person) - 24th September 2022, Mumbai', true, false, false),
