@@ -204,32 +204,7 @@ function Admin() {
         </Box>
       </Box>
 
-      {/* <ReactToPrint
-        trigger={() => (
-          <Box width="30.8%" display="flex" flex="1" flexDirection="column" mt={10}>
-            <Button
-              disabled={!download}
-              sx={{
-                bgcolor: '#EF6C00',
-                '&:hover': {
-                  backgroundColor: '#FB8C00',
-                  boxShadow: 'none',
-                },
-              }}
-              variant="contained"
-              onClick={downloadDataEvent}
-            >
-              Download
-              <MdFileDownload />
-            </Button>
-            <Typography mt={2} variant="subtitle2" sx={{ textAlign: 'center' }} color="initial">Click on the download button to download all the users data from DB</Typography>
-          </Box>
-        )}
-        content={() => componentRef.current}
-      /> */}
-
       {download && (
-        // <ComponentToPrint ref={componentRef} downloadData={downloadData} />
         <CsvDownload style={{
           backgroundColor:"#EF6C00",
           borderRadius:"6px",
