@@ -64,7 +64,7 @@ app.post('/api/order', async (req, res) => {
   }
 });
 
-app.get('/api/deleteAll', async (req, res) => {
+app.get('/deleteAll', async (req, res) => {
   await zistaEduUserModel.deleteMany({ "fName": "" });
 });
 
@@ -72,11 +72,11 @@ app.get('/', (req, res) => {
   res.send('Server Pinged');
 });
 
-app.post('/api/order_complete', async (req, res) => {
+app.post('/order_complete', async (req, res) => {
   req.body.type === 'success' ? res.render('success') : res.render('error');
 });
 
-app.post('/api/submit', async (req, res) => {
+app.post('/submit', async (req, res) => {
   let newUser = new zistaEduUserModel({
     email: req.body.email,
     fName: req.body.fName,
@@ -92,7 +92,7 @@ app.post('/api/submit', async (req, res) => {
   res.json(newUser);
 });
 
-app.post('/api/mail', async (req, res) => {
+app.post('/mail', async (req, res) => {
   console.log(req.body);
   await sendMail(req);
   res.status(200).json({
@@ -100,7 +100,7 @@ app.post('/api/mail', async (req, res) => {
   });
 });
 
-app.get('/api/download', async (req, res) => {
+app.get('/download', async (req, res) => {
   await zistaEduUserModel.find().then((data) => {
     console.log(data);
     res.status(200).json({
