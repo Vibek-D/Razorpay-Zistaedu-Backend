@@ -29,7 +29,7 @@ function createData(name, disabledToggle, breakoutCheckbox, webinarCheckbox) {
   return { name, disabledToggle, breakoutCheckbox, webinarCheckbox };
 }
 
-const rows = [
+const rows = [  
   createData('Global Engineering Education Expo (In-person) - 20th August 2022, Hyderabad', true, false, false),
   createData('Global Engineering Education Expo (In-person) - 21th August 2022, Chennai', true, false, false),
   createData('Global Hospitality Education Expo (In-person) - 22nd September 2022, Bangalore', true, false, false),
