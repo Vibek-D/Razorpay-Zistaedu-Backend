@@ -20,7 +20,6 @@ services:
     environment:
       - KEY_ID="rzp_test_AAZSUIplmuGJ7f"
       - KEY_SECRET="yGfOZwNwsoDKGW3npTn5dAlx"
-      - MONGOOSE_KEY="mongodb+srv://zistaedu:zistaedu@zistaedu.e8pam.mongodb.net/zistaedu?retryWrites=true&w=majority"
       - PORT=4000
       - EMAIL="info@zistaeducation.com"
       - PASS="INFO@1234info"

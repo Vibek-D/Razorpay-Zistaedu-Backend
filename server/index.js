@@ -28,7 +28,7 @@ const zistaEduUserSchema = {
 
 const zistaEduUserModel = mongoose.model("ZistaEduUserModel", zistaEduUserSchema);
 
-const port = process.env.PORT || 4001;
+const port = process.env.PORT || 4000;
 
 app.set('view engine', 'ejs');
 app.use(cors());
